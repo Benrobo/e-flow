@@ -1,0 +1,933 @@
+{
+	"info": {
+		"_postman_id": "187dc05b-007f-447d-8a1b-207c0b98daa5",
+		"name": "e-workflow",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "studentReg",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userName\": \"brad parker\",\r\n    \"email\":\"brad@mail.com\",\r\n    \"phoneNumber\": \"08054486449\",\r\n    \"password\": \"1234\",\r\n    \"type\": \"student\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/auth/users/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"auth",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "staffReg",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userName\": \"brian\",\r\n    \"email\":\"brian@mail.com\",\r\n    \"phoneNumber\": \"07054486449\",\r\n    \"password\": \"1234\",\r\n    \"type\": \"staff\",\r\n    \"token\": \"190347\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/auth/users/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"auth",
+						"users",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "adminReg",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userName\": \"benrobo\",\r\n    \"email\":\"ben@mail.com\",\r\n    \"phoneNumber\": \"08034209681\",\r\n    \"password\": \"1234\",\r\n    \"type\": \"School Officer\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/auth/admin_auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"auth",
+						"admin_auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logIn",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"ben@mail.com\",\r\n    \"password\": \"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/auth/users/logIn",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"auth",
+						"users",
+						"logIn"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllUsers",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllUsersById",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI2MjI2ZWNjLWZmM2YtNGEzOS05MWQyLTU2YTEzYTg2OWIxYyIsInR5cGUiOiJzdGFmZiIsInJvbGUiOiJhZG1pbiIsInN0YXR1cyI6ImFwcHJvdmVkIiwiaWF0IjoxNjQ1ODA0Mzc4LCJleHAiOjE2NzczNjE5Nzh9.O8d7oPsQByjVDzgJzknjof8XLafY72vI2akgKTQGpec",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"b6226ecc-ff3f-4a39-91d2-56a13a869b1c\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"id"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createToken",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"b6226ecc-ff3f-4a39-91d2-56a13a869b1c\",\r\n    \"role\": \"admin\",\r\n    \"token\": \"120347\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/token/generate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"token",
+						"generate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTokens",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI2MjI2ZWNjLWZmM2YtNGEzOS05MWQyLTU2YTEzYTg2OWIxYyIsInJvbGUiOiJhZG1pbiIsInN0YXR1cyI6ImFwcHJvdmVkIiwiaWF0IjoxNjQ1NDkwNTYyLCJleHAiOjE2NzcwNDgxNjJ9.P6VmU4V04M79EUH7jrpmG8mPECErk5kb30-OvsR4Wm4",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"b6226ecc-ff3f-4a39-91d2-56a13a869b1c\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/token/getToken",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"token",
+						"getToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteToken",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI2MjI2ZWNjLWZmM2YtNGEzOS05MWQyLTU2YTEzYTg2OWIxYyIsInJvbGUiOiJhZG1pbiIsInN0YXR1cyI6ImFwcHJvdmVkIiwiaWF0IjoxNjQ1NDkwNTYyLCJleHAiOjE2NzcwNDgxNjJ9.P6VmU4V04M79EUH7jrpmG8mPECErk5kb30-OvsR4Wm4",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"b6226ecc-ff3f-4a39-91d2-56a13a869b1c\",\r\n    \"token\": \"120347\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/token/deleteToken",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"token",
+						"deleteToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sendMail",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjZTMyZDc3LTQ2MDctNDdlZC05OTlhLWYxZWNiNGMyZjRmMiIsInJvbGUiOiJ1c2VyIiwic3RhdHVzIjoicGVuZGluZyIsImlhdCI6MTY0NDgzMDQ0NCwiZXhwIjoxNjc2Mzg4MDQ0fQ.xcIE1z2QpFzYIqSsi-dl5AL8s3crifWq18IYiwI3ymk",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"from\": \"E-workflow system\",\r\n    \"to\":\"alumonabenaiah71@gmail.com\",\r\n    \"subject\": \"E-workflow system from babcock\",\r\n    \"body\": \"This is your registered code\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/user/sendMail",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"sendMail"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "approveStaffRegisteration",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI2MjI2ZWNjLWZmM2YtNGEzOS05MWQyLTU2YTEzYTg2OWIxYyIsInJvbGUiOiJhZG1pbiIsInN0YXR1cyI6ImFwcHJvdmVkIiwiaWF0IjoxNjQ0ODI1ODEyLCJleHAiOjE2NzYzODM0MTJ9.wV9FMLCJRixlyRbWeXWcWowqxSTQ_empTN2KCKlyr60",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"b6226ecc-ff3f-4a39-91d2-56a13a869b1c\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/request/registeration",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"request",
+						"registeration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "rejectStaffRegisteration Copy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjZTMyZDc3LTQ2MDctNDdlZC05OTlhLWYxZWNiNGMyZjRmMiIsInJvbGUiOiJ1c2VyIiwic3RhdHVzIjoicGVuZGluZyIsImlhdCI6MTY0NDgzMDQ0NCwiZXhwIjoxNjc2Mzg4MDQ0fQ.xcIE1z2QpFzYIqSsi-dl5AL8s3crifWq18IYiwI3ymk",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"62447136-30c3-4f72-a36e-0c638d217c0d\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/request/registeration/reject",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"request",
+						"registeration",
+						"reject"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "setPermissions",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjZTMyZDc3LTQ2MDctNDdlZC05OTlhLWYxZWNiNGMyZjRmMiIsInJvbGUiOiJ1c2VyIiwic3RhdHVzIjoicGVuZGluZyIsImlhdCI6MTY0NDgzMDQ0NCwiZXhwIjoxNjc2Mzg4MDQ0fQ.xcIE1z2QpFzYIqSsi-dl5AL8s3crifWq18IYiwI3ymk",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"b6226ecc-ff3f-4a39-91d2-56a13a869b1c\",\r\n    \"staffId\": \"ace32d77-4607-47ed-999a-f1ecb4c2f4f2\",\r\n    \"permissionLevel\": 5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/staff/permission/set",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"staff",
+						"permission",
+						"set"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "changePermissions",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjZTMyZDc3LTQ2MDctNDdlZC05OTlhLWYxZWNiNGMyZjRmMiIsInJvbGUiOiJ1c2VyIiwic3RhdHVzIjoicGVuZGluZyIsImlhdCI6MTY0NDgzMDQ0NCwiZXhwIjoxNjc2Mzg4MDQ0fQ.xcIE1z2QpFzYIqSsi-dl5AL8s3crifWq18IYiwI3ymk",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"e13e1224-2bad-4790-a2a3-6c9950215d8d\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/staff/permission/edit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"staff",
+						"permission",
+						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createGroup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjZTMyZDc3LTQ2MDctNDdlZC05OTlhLWYxZWNiNGMyZjRmMiIsInJvbGUiOiJ1c2VyIiwic3RhdHVzIjoicGVuZGluZyIsImlhdCI6MTY0NDkwNTc4NSwiZXhwIjoxNjc2NDYzMzg1fQ.I3ODaCBSKD7Vqg4MfY3ltj8vcFBuKnW44L-Up4oi5xM",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"studentId\": \"09b21263-f605-4d57-9913-8b5c884e0cc4\",\r\n    \"name\": \"Group Jeff       \",\r\n    \"courseName\": \"Intro to System Admin   \",\r\n    \"courseType\": \"Computer Science \"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/user/groups/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"groups",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addMembers",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjZTMyZDc3LTQ2MDctNDdlZC05OTlhLWYxZWNiNGMyZjRmMiIsInJvbGUiOiJ1c2VyIiwic3RhdHVzIjoicGVuZGluZyIsImlhdCI6MTY0NDkwNTc4NSwiZXhwIjoxNjc2NDYzMzg1fQ.I3ODaCBSKD7Vqg4MfY3ltj8vcFBuKnW44L-Up4oi5xM",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"memberId\": \"e13e1224-2bad-4790-a2a3-6c9950215d8d\",\r\n    \"groupId\": \"c81dea98-08c5-4b01-8327-eb8b1930d088\",\r\n    \"courseName\": \"Intro to System Admin   \",\r\n    \"courseType\": \"Computer Science \"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/user/groups/addMembers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"groups",
+						"addMembers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editGroup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjZTMyZDc3LTQ2MDctNDdlZC05OTlhLWYxZWNiNGMyZjRmMiIsInJvbGUiOiJ1c2VyIiwic3RhdHVzIjoicGVuZGluZyIsImlhdCI6MTY0NDkwNTc4NSwiZXhwIjoxNjc2NDYzMzg1fQ.I3ODaCBSKD7Vqg4MfY3ltj8vcFBuKnW44L-Up4oi5xM",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"e13e1224-2bad-4790-a2a3-6c9950215d8d\",\r\n    \"groupId\": \"c81dea98-08c5-4b01-8327-eb8b1930d088\",\r\n    \"name\": \"Group Amazon 2\",\r\n    \"courseName\": \"Intro to Operating System    \",\r\n    \"courseType\": \"Computer Science \"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/user/groups/edit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"groups",
+						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteGroupMembers",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjZTMyZDc3LTQ2MDctNDdlZC05OTlhLWYxZWNiNGMyZjRmMiIsInJvbGUiOiJ1c2VyIiwic3RhdHVzIjoicGVuZGluZyIsImlhdCI6MTY0NDkwNTc4NSwiZXhwIjoxNjc2NDYzMzg1fQ.I3ODaCBSKD7Vqg4MfY3ltj8vcFBuKnW44L-Up4oi5xM",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"09b21263-f605-4d57-9913-8b5c884e0cc4\",\r\n    \"memberId\": \"e13e1224-2bad-4790-a2a3-6c9950215d8d\",\r\n    \"groupId\": \"c81dea98-08c5-4b01-8327-eb8b1930d088\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/user/groups/deleteMemebers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"groups",
+						"deleteMemebers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteGroup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjZTMyZDc3LTQ2MDctNDdlZC05OTlhLWYxZWNiNGMyZjRmMiIsInJvbGUiOiJ1c2VyIiwic3RhdHVzIjoicGVuZGluZyIsImlhdCI6MTY0NDkwNTc4NSwiZXhwIjoxNjc2NDYzMzg1fQ.I3ODaCBSKD7Vqg4MfY3ltj8vcFBuKnW44L-Up4oi5xM",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"09b21263-f605-4d57-9913-8b5c884e0cc4\",\r\n   \"groupId\": \"c81dea98-08c5-4b01-8327-eb8b1930d088\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/user/groups/deleteGroup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"groups",
+						"deleteGroup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllDocs",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjZTMyZDc3LTQ2MDctNDdlZC05OTlhLWYxZWNiNGMyZjRmMiIsInJvbGUiOiJ1c2VyIiwic3RhdHVzIjoicGVuZGluZyIsImlhdCI6MTY0NDkwNTc4NSwiZXhwIjoxNjc2NDYzMzg1fQ.I3ODaCBSKD7Vqg4MfY3ltj8vcFBuKnW44L-Up4oi5xM",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5000/api/documents/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"documents",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getDocsById",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjZTMyZDc3LTQ2MDctNDdlZC05OTlhLWYxZWNiNGMyZjRmMiIsInJvbGUiOiJ1c2VyIiwic3RhdHVzIjoicGVuZGluZyIsImlhdCI6MTY0NDkwNTc4NSwiZXhwIjoxNjc2NDYzMzg1fQ.I3ODaCBSKD7Vqg4MfY3ltj8vcFBuKnW44L-Up4oi5xM",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"documentId\": \"76ea5edb-680a-4d49-867a-75cd12ad35a0\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/documents/id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"documents",
+						"id"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addFYPDocument",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjZTMyZDc3LTQ2MDctNDdlZC05OTlhLWYxZWNiNGMyZjRmMiIsInJvbGUiOiJ1c2VyIiwic3RhdHVzIjoicGVuZGluZyIsImlhdCI6MTY0NDkwNTc4NSwiZXhwIjoxNjc2NDYzMzg1fQ.I3ODaCBSKD7Vqg4MfY3ltj8vcFBuKnW44L-Up4oi5xM",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"09b21263-f605-4d57-9913-8b5c884e0cc4\",\r\n    \"groupId\": \"56a5e5a8-7c35-4ee6-9d85-4dd916197130\",\r\n    \"title\": \"Just course form 2\",\r\n    \"documentType\": \"FYP\",\r\n    \"courseName\": \"Intro to computer sci\",\r\n    \"courseType\": \"Computer Science\",\r\n    \"staffId\": \"0504a303-46d2-48b3-b55d-51782eed4199\",\r\n    \"file\": {\r\n        \"type\": \"pdf\",\r\n        \"data\": \"34543rt43rtr43r43r\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/user/documents/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"documents",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editFYPDocument",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjZTMyZDc3LTQ2MDctNDdlZC05OTlhLWYxZWNiNGMyZjRmMiIsInJvbGUiOiJ1c2VyIiwic3RhdHVzIjoicGVuZGluZyIsImlhdCI6MTY0NDkwNTc4NSwiZXhwIjoxNjc2NDYzMzg1fQ.I3ODaCBSKD7Vqg4MfY3ltj8vcFBuKnW44L-Up4oi5xM",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"e13e1224-2bad-4790-a2a3-6c9950215d8d\",\r\n    \"groupId\": \"946f6a57-b82a-4566-9ad3-318a6b6b2422\",\r\n    \"documentId\": \" 0e7b41cb-a15e-4a6c-96cf-b7f63babd601\",\r\n    \"title\": \"Just course form updated\",\r\n    \"documentType\": \"FYP\",\r\n    \"courseName\": \"Intro to computer sci\",\r\n    \"courseType\": \"Computer Science\",\r\n    \"staffId\": \"0504a303-46d2-48b3-b55d-51782eed4199\",\r\n    \"changeFile\": false,\r\n    \"file\": {\r\n        \"type\": \"pdf\",\r\n        \"data\": \"sdcdsvdwsvsdvsdvdsvdsvwertfwertf5435\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/user/documents/edit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"documents",
+						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addCFDocuments",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjZTMyZDc3LTQ2MDctNDdlZC05OTlhLWYxZWNiNGMyZjRmMiIsInJvbGUiOiJ1c2VyIiwic3RhdHVzIjoicGVuZGluZyIsImlhdCI6MTY0NDkwNTc4NSwiZXhwIjoxNjc2NDYzMzg1fQ.I3ODaCBSKD7Vqg4MfY3ltj8vcFBuKnW44L-Up4oi5xM",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"e13e1224-2bad-4790-a2a3-6c9950215d8d\",\r\n    \"title\": \"Just course form 2.5\",\r\n    \"documentType\": \"CF\",\r\n    \"courseName\": \"Intro to computer sci\",\r\n    \"courseType\": \"Computer Science\",\r\n    \"staffId\": \"0504a303-46d2-48b3-b55d-51782eed4199\",\r\n    \"file\": {\r\n        \"type\": \"pdf\",\r\n        \"data\": \"34543rt43rtr43r43r\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/user/documents/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"documents",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editCFDocument",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjZTMyZDc3LTQ2MDctNDdlZC05OTlhLWYxZWNiNGMyZjRmMiIsInJvbGUiOiJ1c2VyIiwic3RhdHVzIjoicGVuZGluZyIsImlhdCI6MTY0NDkwNTc4NSwiZXhwIjoxNjc2NDYzMzg1fQ.I3ODaCBSKD7Vqg4MfY3ltj8vcFBuKnW44L-Up4oi5xM",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"e13e1224-2bad-4790-a2a3-6c9950215d8d\",\r\n    \"documentId\": \"69910955-90c9-4f8d-9c2a-458a80311e79\",\r\n    \"title\": \"Just course form CF\",\r\n    \"documentType\": \"CF\",\r\n    \"courseName\": \"Intro to computer sci\",\r\n    \"courseType\": \"Computer Science\",\r\n    \"staffId\": \"0504a303-46d2-48b3-b55d-51782eed4199\",\r\n    \"changeFile\": false,\r\n    \"file\": {\r\n        \"type\": \"pdf\",\r\n        \"data\": \"34543rt43rtr43r43r\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/user/documents/edit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"documents",
+						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteDocument",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFjZTMyZDc3LTQ2MDctNDdlZC05OTlhLWYxZWNiNGMyZjRmMiIsInJvbGUiOiJ1c2VyIiwic3RhdHVzIjoicGVuZGluZyIsImlhdCI6MTY0NDkwNTc4NSwiZXhwIjoxNjc2NDYzMzg1fQ.I3ODaCBSKD7Vqg4MfY3ltj8vcFBuKnW44L-Up4oi5xM",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"e13e1224-2bad-4790-a2a3-6c9950215d8d\",\r\n    \"documentId\": \"0e7b41cb-a15e-4a6c-96cf-b7f63babd601\",\r\n    \"documentType\": \"FYP\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/user/documents/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"user",
+						"documents",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUsersID",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
