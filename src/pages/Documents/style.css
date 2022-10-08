@@ -1,0 +1,619 @@
+.options-cont{
+    width: 100%;
+    height: 70vh;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+}
+.options-cont .bx{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+}
+.options-cont .btn{
+    padding: 15px 30px;
+}
+
+.options-cont .btn:hover{
+    transform: scale(.95);
+    transition: .2s ease;
+}
+.options-cont .fyp-btn{
+    background: var(--gr2);
+    color: var(--gr1);
+    transform:scale(.90);
+    transition:.2s ease;
+}
+.options-cont .cf-btn{
+    background: var(--dark1);
+    color: var(--gr1);
+    border: 2px solid var(--gr1);
+    transform:scale(.90);
+    transition:.2s ease;
+}
+
+
+/* form containers*/
+
+.doc-cont{
+    width: 70%;
+    height:auto;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: var(--dark3);
+    margin: 10px auto;
+    border-radius: 10px;
+    transition: .2s ease;
+}
+
+.doc-cont .head{
+    padding: 5px;
+    width: 100%;
+    color: #777;
+    border-bottom: 1px solid var(--dark3);
+    font-size: 20px;
+}
+
+.doc-cont .head hr{
+    width: 100%;
+}
+
+.doc-cont .d-flex{
+    width:100%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.doc-cont .d-flex .bx{
+    width: 50%;
+    margin-right: 10px;
+    height: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.doc-cont .d-flex .bx label{
+    opacity: .4;
+}
+
+.doc-cont .d-flex .bx .input{
+    padding: 10px;
+    width: 100%;
+    border: none;
+    outline: none;
+    background: var(--dark1);
+    color: var(--light2);
+}
+
+.doc-cont .d-flex .bx .select{
+    padding: 10px;
+    width: 100%;
+    border: none;
+    outline: none;
+    background: var(--dark1);
+    color: var(--light2);
+}
+
+.doc-cont .file-cont{
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.doc-cont .file-cont .left{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.doc-cont .file-cont .select{
+    padding: 6px;
+    width: 100%;
+    border: none;
+    outline: none;
+    background: var(--dark1);
+    color: var(--light2);
+}
+
+.doc-cont .file-cont .left label{
+    opacity: .7;
+}
+
+.doc-cont .file-cont .left .file{
+    padding: 10px 20px;
+    background: var(--dark1);
+    color: var(--gr1);
+}
+
+.doc-cont .file-cont .right {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.doc-cont .file-cont .right .file-type{
+    padding: 20px;
+    font-size: 20px;
+    background: var(--dark1);
+    border-radius: 10px;
+    opacity: .2;
+}
+
+.doc-cont .file-cont .right .file-type.valid{
+    background: var(--gr2);
+    color: var(--gr1);
+    opacity:1;
+}
+.doc-cont .file-cont .right .file-type.invalid{
+    background: var(--red2);
+    color: var(--red1);
+    opacity:1;
+}
+
+.doc-cont .action-cont{
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.doc-cont .action-cont .btn{
+    padding: 10px 25px;
+}
+
+
+.doc-cont .action-cont .cancel{
+    background: var(--dark1);
+    color: var(--light3);
+    margin-right: 20px;
+}
+
+.doc-cont .action-cont .submit{
+    background: var(--gr2);
+    color: var(--gr1);
+}
+
+/* documents list */
+.doc-list{
+    width: 100%;
+    height: auto;
+    padding: 0px;
+    position: relative;
+}
+
+.doc-list .table {
+    width: 100%;
+    height: auto;
+}
+
+.doc-list .table thead th{
+    border: none;
+    outline: none;
+    background: var(--dark1);
+    font-size: 12px;
+}
+
+.doc-list .table tbody td{
+    border: none;
+    outline: none;
+    background: var(--dark2);
+    font-size: 15px;
+}
+
+.doc-list .table tbody td .by{
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 12px;
+    background: var(--dark1);
+}
+
+.doc-list .table tbody td .more{
+    padding: 5px 10px;
+    font-size: 10px;
+    background: var(--gr2);
+    color: var(--gr1);
+}
+
+.doc-list .table tbody td.action{
+    position: relative;
+}
+
+.doc-list .table tbody td .action-cont{
+    position: absolute;
+    right: 90px;
+    top: 10px;
+    width: 100px;
+    /* height: 85px; */
+    height: 0px;
+    background: var(--dark1);
+    border-radius: 5px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    box-shadow: 0px 0px 5px var(--dark1);
+    overflow: hidden;
+    transition: .2s ease;
+    z-index: 2;
+}
+
+.doc-list .table tbody td .action-cont.visibility{
+    height: auto;
+    transition: .2s ease;
+}
+
+.doc-list .table tbody td .action-cont li{
+    font-size: 12px;
+    padding: 5px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.doc-list .table tbody td .action-cont li:hover{
+    background: var(--dark3);
+}
+
+
+/* view documents */
+.view-document{
+    width: 100%;
+    height: 100vh;
+    padding: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.view-document .document-container{
+    width: 100%;
+    max-width: 75%;
+    height: 100vh;
+    max-height: 150vh;
+    overflow-y: scroll;
+    background: var(--dark1);
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 10px;
+}
+
+
+.view-document .document-container::-webkit-scrollbar{
+    width: 7px;
+}
+.view-document .document-container::-webkit-scrollbar-thumb{
+    background: #777;
+    border-radius: 30px;
+}
+
+.view-document .document-container .frame-cont{
+    width: 100%;
+    height: 300px;
+    position: relative;
+    margin-bottom: 30px;
+    background: red;
+}
+
+.view-document .document-container iframe{
+    width: 100%;
+    height: 200%;
+    border: none;
+    outline: none;
+    /* position: absolute; */
+    top: 0px;
+}
+
+.view-document .document-container .btn{
+    background: var(--red2);
+    color: var(--red1);
+    padding: 4px 15px;
+    margin-bottom: 10px;
+}
+
+
+/* Signature */
+.view-document .document-container .doc-signature{
+    width: 100%;
+    height: auto;
+}
+
+
+.view-document .document-container .doc-signature .img-cont{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background: rgba(0,0,0,.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+.view-document .document-container .doc-signature .img-cont .img{
+    width: 20%;
+    background: #fff;
+    text-align: center;
+    color: #000;
+}
+
+.view-document .document-container .doc-signature table{
+    width: 100%;
+    height: auto;
+    border: none;
+    outline: none;
+}
+
+.view-document .document-container .doc-signature table th{
+    font-size: 15px;
+    font-weight: 200;
+    text-align: center;
+}
+
+.view-document .document-container .doc-signature table tbody tr td{
+    background: var(--dark2);
+    text-align: center;
+    color: var(--light3);
+    font-size: 12px;
+}
+
+.view-document .document-container .doc-signature table tbody tr td .icon{
+    color: var(--gr1);
+}
+
+.view-document .document-container .doc-signature table tbody tr td .btn{
+    font-size: 12px;
+}
+
+.view-document .document-container .doc-signature table tbody tr td .btn.del{
+    background: var(--red2);
+    color: var(--red1);
+}
+
+.view-document .document-container .doc-signature table tbody tr td .btn.view{
+    background: var(--gr2);
+    color: var(--gr1);
+}
+
+.view-document .right-menu{
+    width: 40%;
+    max-width: 300px;
+    height: 100vh;
+    padding: 10px;
+}
+
+.view-document .right-menu .info{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.view-document .right-menu .info label{
+    opacity: .6;
+    font-size: 15px;
+}
+.view-document .right-menu .action .btn-action{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.view-document .right-menu .action{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.view-document .right-menu .action .btn{
+    font-size: 12px;
+    padding: 10px 15px;
+    font-weight: 900;
+    margin-right: 4px;
+    margin-bottom: 5px;
+}
+
+.view-document .right-menu .action .btn-action{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.view-document .right-menu .action .approve{
+    background: var(--gr2);
+    color: var(--gr1);
+}
+
+.view-document .right-menu .action .reject{
+    background: var(--red2);
+    color: var(--red1);
+}
+
+.view-document .right-menu .action .report{
+    background: var(--dark1);
+    color: var(--light3);
+}
+
+.view-document .right-menu .action .main{
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.view-document .right-menu .action .main .add-btn{
+    background: var(--dark1);
+    color: var(--light3);
+    margin-top: 3px;
+    border: 2px solid var(--gr2);
+}
+
+.view-document .right-menu .action .main .members-cont{
+    width: 100%;
+    height: auto;
+    position: relative;
+    background: var(--dark1);
+}
+
+.view-document .right-menu .action .main .members-cont li{
+    padding: 5px;
+    width: 100%;
+    background: var(--dark3);
+    border-bottom: 3px solid var(--dark1);
+}
+
+.view-document .right-menu .reports .head{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.view-document .right-menu .reports .head span{
+    opacity: .7;
+}
+
+.view-document .right-menu .reports .head .btn{
+    padding: 0px 6px;
+    border-radius: 5px;
+    background: var(--dark3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    color: var(--light3);
+}
+
+.view-document .right-menu .reports .reports-container{
+    width: 100%;
+    height: auto;
+    max-height: 350px;
+    overflow-y: scroll;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.view-document .right-menu .reports .reports-container::-webkit-scrollbar{
+    width: 10px;
+}
+
+.view-document .right-menu .reports .reports-container::-webkit-scrollbar-thumb{
+    background:#777;
+    border-radius: 30px;
+}
+
+.view-document .right-menu .reports .reports-container .bx{
+    border-bottom: 1px solid #777;
+}
+.view-document .right-menu .reports .reports-container .bx .delete{
+    font-size: 12px;
+    padding: 2px 8px;
+    background: var(--red2);
+    color: var(--red1);
+    opacity: 1;
+}
+.view-document .right-menu .reports .reports-container .bx span{
+    opacity: .7;
+}
+.view-document .right-menu .reports .reports-container .bx p{
+    font-size: 14px;
+}
+
+
+/* Updated Doc */
+.updated-doc{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    text-align: center;
+    color: #000;
+}
+
+
+/* Sign Doc */
+.sign-doc{
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background: rgba(0,0,0,.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 1000;
+    text-align: center;
+}
+.sign-doc .main{
+    width: 400px;
+    height: auto;
+    padding: 20px;
+    background: var(--dark2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.sign-doc .main .canvas{
+    width: 100%;
+    height: 200px;
+    background: #fff;
+}
+
+.sign-doc .main .action{
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: row;
+    
+}
+
+.sign-doc .main .action .close-btn{
+    background: var(--red1);
+    color: #fff;
+}
+
+
+.sign-doc .main .action .save{
+    background: var(--gr2);
+    color: var(--gr1);
+    padding: 10px 20px;
+}
