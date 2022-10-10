@@ -2051,7 +2051,6 @@ export default class Document {
   }
 
   addFeedBack(res, payload) {
-    n
     if (res === "" || res === undefined || res === null) {
       return "submitting documents feedback requires a valid {res} object but got none";
     }
