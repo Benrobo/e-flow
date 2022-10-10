@@ -603,7 +603,7 @@ function ViewDocument({ documentId, setDocView }) {
                     <button
                       className="btn report"
                       onClick={(e) => {
-                        setViewUpDoc(!viewupdoc)
+                        window.location = doc.file;
                       }}
                     >
                       View Documents
@@ -785,7 +785,7 @@ function ViewDocument({ documentId, setDocView }) {
                 {/* Add Signature */}
 
                 {/* Updated Document */}
-                {viewupdoc && <ViewUpdatedDocuments />}
+                {viewupdoc && <ViewUpdatedDocuments file={doc.file} />}
                 {viewsign && <SignDocument studentId={studentId} setViewSign={setViewSign} doctype={doctype} documentId={docid} />}
               </div>
             </>
@@ -797,11 +797,11 @@ function ViewDocument({ documentId, setDocView }) {
 }
 
 
-function ViewUpdatedDocuments() {
+function ViewUpdatedDocuments({ file }) {
 
   return (
     <div className="updated-doc">
-      <h2>View Updated Doc</h2>
+      <iframe src={file} className="doc-preview"></iframe>
     </div>
   )
 }

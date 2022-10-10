@@ -311,7 +311,7 @@
     height: 300px;
     position: relative;
     margin-bottom: 30px;
-    background: red;
+    /* background: red; */
 }
 
 .view-document .document-container iframe{
