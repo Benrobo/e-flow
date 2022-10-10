@@ -509,7 +509,7 @@ function AddMembers({ setAMVisibility, data, loading }) {
                 </div>
                 <br />
                 <label htmlFor="">Group Name</label>
-                <select name="" className="select" onClick={async (e) => {
+                <select name="" className="select" onChange={async (e) => {
                     setGroupId(e.target.value)
                 }}>
                     <option value="">-----</option>
@@ -531,7 +531,7 @@ function AddMembers({ setAMVisibility, data, loading }) {
                 </select>
                 <br />
                 <label htmlFor="">All Users</label>
-                <select name="" className="select" disabled={fetchloading ? true : false} onClick={(e) => {
+                <select name="" className="select" disabled={fetchloading ? true : false} onChange={(e) => {
                     setSelectedUserId(e.target.value)
                 }}>
                     <option value="">-----</option>

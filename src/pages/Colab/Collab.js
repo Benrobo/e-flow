@@ -46,7 +46,8 @@ function Collab() {
 export default Collab;
 
 function MeetingInfo({ id }) {
-  let link = `http://localhost:3000/user/meeting/${id}`;
+  const {origin} = window.location;
+  let link = `${origin}/user/meeting/${id}`;
   const [visibility, setVisibility] = useState(false);
 
   setTimeout(() => {
@@ -68,7 +69,7 @@ function MeetingInfo({ id }) {
           <br />
           <p>Please copy the link below.</p>
           <Link to={link} target="_blank" className="link">
-            http://localhost:3000{link}
+            {link}
           </Link>
           <br />
           <button
