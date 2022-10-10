@@ -42,6 +42,7 @@ import {
 import { addSignature, deleteSignature } from "./routes/signature.js"
 import { deleteNotification, getNotification, updateNotification } from "./routes/notification.js";
 import { conn } from "./model/db.js";
+import queryDB from "./helpers/query.js";
 
 dotenv.config();
 // main middlewares
@@ -127,11 +128,24 @@ app.use(deleteNotification)
 // listen on a htp port to run and start the server
 const PORT = process.env.PORT || 5000;
 
+// connect using postgresql
+
+// conn.connect((err) => {
+//   if (err) {
+//     return console.log(err)
+//   }
+//   app.listen(PORT, () => {
+//     console.log(`Server started http://localhost:${PORT}`)
+//   });
+// })
+
+// connect using mysql
+
 conn.connect((err) => {
   if (err) {
     return console.log(err)
   }
-  app.listen(PORT, () => {
+  app.listen(PORT, async () => {
     console.log(`Server started http://localhost:${PORT}`)
   });
 })
