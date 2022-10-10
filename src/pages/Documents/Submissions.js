@@ -600,14 +600,16 @@ function ViewDocument({ documentId, setDocView }) {
                         Add Signature
                       </button>
                     )}
-                    <button
-                      className="btn report"
-                      onClick={(e) => {
-                        window.location = doc.file;
-                      }}
-                    >
-                      View Documents
-                    </button>
+                    <a href={doc?.file} target="_blank">
+                      <button
+                        className="btn report"
+                        onClick={(e) => {
+                          // window.location.href = doc.file;
+                        }}
+                      >
+                        View Documents
+                      </button>
+                    </a>
                     {/* {(doc.documentPermissions === 4) && (
                       <button
                         className="btn approve"

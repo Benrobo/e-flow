@@ -195,10 +195,9 @@ function GenerateCode() {
                                                         <td>#{list.token}</td>
                                                         <td>{list.issued_at}</td>
                                                         <td>
-                                                            <FiTrash className='icon' data-token={list.token}
-                                                                onClick={(e) => {
+                                                            <span className='icon' onClick={(e) => {
                                                                     deleteToken(e)
-                                                                }} />
+                                                                }}  data-token={list.token}>delete</span>
                                                         </td>
                                                     </tr>
                                                 )
