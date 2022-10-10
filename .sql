@@ -1,7 +1,7 @@
 
 -- database creation
 
-CREATE DATABASE "e-workflow";
+CREATE DATABASE "e-flow";
 
 -- Tables Creations
 

@@ -77,6 +77,16 @@ export default class RegisterAuth {
 
     }
 
+    async #removeToken(token) {
+        return new Promise((res, rej) => {
+            const sql = `DELETE FROM codes WHERE token=$1`
+            db.query(sql, [token], (err, data) => {
+                if (err) return rej(err)
+                res({ msg: "token deleted" })
+            })
+        })
+    }
+
     // register staff
     async staff(res, data) {
         if (res === "" || res === undefined || res === null) {
@@ -147,10 +157,14 @@ export default class RegisterAuth {
                         let modifiedType = "staff";
 
                         const sql3 = `INSERT INTO users(id, "userId", "userName","mail","phoneNumber",hash,"type","userStatus", "userRole","refreshToken","joined","documentPermissions") VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`
-                        db.query(sql3, [id, userId, userName, email, phoneNumber, hash, modifiedType, status, role, refreshToken, joined, permissionLevel], (err, result) => {
+                        db.query(sql3, [id, userId, userName, email, phoneNumber, hash, modifiedType, status, role, refreshToken, joined, permissionLevel], async (err, result) => {
                             if (err) {
                                 return util.sendJson(res, { error: true, message: err.message }, 400)
                             }
+
+                            const tokenData = await this.#removeToken(data.token)
+
+                            console.log(tokenData)
 
                             return util.sendJson(res, { error: false, message: "user registerd succesfully. waiting to be approved by admin" }, 200)
                         })
