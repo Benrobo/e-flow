@@ -25,36 +25,36 @@ export default class LogInAuth {
 
             // check if user exist
             try {
-                const sql = `SELECT * FROM users WHERE mail=$1`
+                const sql = `SELECT * FROM users WHERE mail=?`
                 db.query(sql, [data.email], (err, result) => {
                     if (err) {
                         return util.sendJson(res, { error: true, message: err.message }, 400)
                     }
 
-                    if (result.rowCount === 0) {
+                    if (result.length === 0) {
                         return util.sendJson(res, { error: true, message: "user with that email dont exists" }, 404)
                     }
 
                     // verify password
-                    if (util.compareHash(data.password, result.rows[0].hash) === false) {
+                    if (util.compareHash(data.password, result[0]?.hash) === false) {
                         return util.sendJson(res, { error: true, message: "password given is incorrect" }, 403)
                     }
                     // Only logged in staff whoes account is approved
-                    if (result.rows[0].userStatus === "pending" && result.rows[0].type === "staff") {
+                    if (result[0].userStatus === "pending" && result[0].type === "staff") {
                         return util.sendJson(res, { error: true, message: "Unauthorized: account is in pending state" }, 401)
                     }
 
                     // update data
                     const tokenPayload = {
-                        id: result.rows[0].userId,
-                        type: result.rows[0].userType,
-                        role: result.rows[0].userRole,
-                        type: result.rows[0].type,
-                        status: result.rows[0].userStatus,
+                        id: result[0].userId,
+                        type: result[0].userType,
+                        role: result[0].userRole,
+                        type: result[0].type,
+                        status: result[0].userStatus,
                     }
                     const refreshToken = util.genRefreshToken(tokenPayload)
                     // const accessToken = util.genAccessToken(tokenPayload)
-                    const sql2 = `UPDATE users SET "refreshToken"=$1 WHERE mail=$2`
+                    const sql2 = `UPDATE users SET refreshToken=? WHERE mail=?`
                     db.query(sql2, [refreshToken, data.email], (err) => {
                         if (err) {
                             return util.sendJson(res, { error: true, message: err.message }, 400)

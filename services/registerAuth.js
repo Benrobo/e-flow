@@ -39,13 +39,13 @@ export default class RegisterAuth {
 
             // check if user exist
             try {
-                const sql = `SELECT * FROM users WHERE mail=$1 OR "phoneNumber"=$2`
+                const sql = `SELECT * FROM users WHERE mail=? OR "phoneNumber"=?`
                 db.query(sql, [data.email, data.phoneNumber], (err, result) => {
                     if (err) {
                         return util.sendJson(res, { error: true, message: err.message }, 400)
                     }
 
-                    if (result.rowCount > 0) {
+                    if (result.length > 0) {
                         return util.sendJson(res, { error: true, message: "student with that email or phone number already exists" }, 400)
                     }
 
@@ -60,7 +60,7 @@ export default class RegisterAuth {
                     const role = "user"
                     let modifiedType = "student";
 
-                    const sql2 = `INSERT INTO users(id, "userId", "userName","mail","phoneNumber",hash,"type","userStatus", "userRole","refreshToken","joined") VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`
+                    const sql2 = `INSERT INTO users(id, userId, userName,mail,phoneNumber,hash,type,userStatus, userRole,refreshToken,joined) VALUES(?,?,?,?,?,?,?,?,?,?,?)`
                     db.query(sql2, [id, userId, userName, email, phoneNumber, hash, modifiedType, status, role, refreshToken, joined], (err, result) => {
                         if (err) {
                             return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -123,24 +123,24 @@ export default class RegisterAuth {
 
             // check if user exist
             try {
-                const sql = `SELECT * FROM users WHERE mail=$1 OR "phoneNumber"=$2`
+                const sql = `SELECT * FROM users WHERE mail=? OR phoneNumber=?`
                 db.query(sql, [data.email, data.phoneNumber], (err, result) => {
                     if (err) {
                         return util.sendJson(res, { error: true, message: err.message }, 400)
                     }
 
-                    if (result.rowCount > 0) {
+                    if (result.length > 0) {
                         return util.sendJson(res, { error: true, message: "user with that email or phone number already exists" }, 400)
                     }
 
                     // check if token entered match the created token in database
-                    const sql2 = `SELECT * FROM codes WHERE token=$1`
+                    const sql2 = `SELECT * FROM codes WHERE token=?`
                     db.query(sql2, [data.token], (err, resultData) => {
                         if (err) {
                             return util.sendJson(res, { error: true, message: err.message }, 400)
                         }
 
-                        if (resultData.rowCount === 0) {
+                        if (resultData.length === 0) {
                             return util.sendJson(res, { error: true, message: "token as either expired or is invalid" }, 403)
                         }
 
@@ -156,7 +156,7 @@ export default class RegisterAuth {
                         const permissionLevel = 1;
                         let modifiedType = "staff";
 
-                        const sql3 = `INSERT INTO users(id, "userId", "userName","mail","phoneNumber",hash,"type","userStatus", "userRole","refreshToken","joined","documentPermissions") VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`
+                        const sql3 = `INSERT INTO users(id, userId, userName,mail,phoneNumber,hash,type,userStatus, userRole,refreshToken,joined,documentPermissions) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`
                         db.query(sql3, [id, userId, userName, email, phoneNumber, hash, modifiedType, status, role, refreshToken, joined, permissionLevel], async (err, result) => {
                             if (err) {
                                 return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -215,13 +215,13 @@ export default class RegisterAuth {
 
             // check if user exist
             try {
-                const sql = `SELECT * FROM users WHERE mail=$1 OR "phoneNumber"=$2`
+                const sql = `SELECT * FROM users WHERE mail=? OR phoneNumber=?`
                 db.query(sql, [data.email, data.phoneNumber], (err, result) => {
                     if (err) {
                         return util.sendJson(res, { error: true, message: err.message }, 400)
                     }
 
-                    if (result.rowCount > 0) {
+                    if (result.length > 0) {
                         return util.sendJson(res, { error: true, message: "user with that email or phone number already exists" }, 400)
                     }
 
@@ -238,7 +238,7 @@ export default class RegisterAuth {
                     const permissionLevel = 3;
                     let modifiedType = "staff";
 
-                    const sql3 = `INSERT INTO users(id, "userId", "userName","mail","phoneNumber",hash,"type","userStatus", "userRole","refreshToken","joined","documentPermissions") VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12)`
+                    const sql3 = `INSERT INTO users(id, userId, userName,mail,phoneNumber,hash,type,userStatus, userRole,refreshToken,joined,documentPermissions) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)`
                     db.query(sql3, [id, userId, userName, email, phoneNumber, hash, modifiedType, status, role, refreshToken, joined, permissionLevel], (err, result) => {
                         if (err) {
                             return util.sendJson(res, { error: true, message: err.message }, 400)
