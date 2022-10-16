@@ -17,25 +17,21 @@ export default class GrantRequest {
             }
             // check if user exist
             try {
-                const sql = `SELECT * FROM users WHERE "userId"=$1`
+                const sql = `SELECT * FROM users WHERE userId=?`
                 db.query(sql, [data.userId], (err, result) => {
                     if (err) {
                         return util.sendJson(res, { error: true, message: err.message }, 400)
                     }
 
-                    if (result.rowCount === 0) {
+                    if (result.length === 0) {
                         return util.sendJson(res, { error: true, message: "officer with that ID dont exists" }, 404)
                     }
 
-                    // if (result.rows[0].userRole === "user") {
-
-                    // }
-
                     // check if userStatus is pending
-                    if (result.rows[0].userStatus === "pending") {
+                    if (result[0].userStatus === "pending") {
                         // update data
                         const status = "approved"
-                        const sql2 = `UPDATE users SET "userStatus"=$1 WHERE "userId"=$2`
+                        const sql2 = `UPDATE users SET userStatus=? WHERE userId=?`
                         db.query(sql2, [status, data.userId], (err) => {
                             if (err) {
                                 return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -70,13 +66,13 @@ export default class GrantRequest {
             }
             // check if user exist
             try {
-                const sql = `SELECT * FROM users WHERE "userId"=$1`
+                const sql = `SELECT * FROM users WHERE userId=?`
                 db.query(sql, [data.userId], (err, result) => {
                     if (err) {
                         return util.sendJson(res, { error: true, message: err.message }, 400)
                     }
 
-                    if (result.rowCount === 0) {
+                    if (result.length === 0) {
                         return util.sendJson(res, { error: true, message: "user with that ID dont exists" }, 404)
                     }
 
@@ -85,10 +81,10 @@ export default class GrantRequest {
                     // }
 
                     // check if userStatus is pending
-                    if (result.rows[0].userStatus === "approved" || result.rows[0].userStatus === "pending") {
+                    if (result[0].userStatus === "approved" || result[0].userStatus === "pending") {
                         // update data
                         const status = "pending"
-                        const sql2 = `UPDATE users SET "userStatus"=$1 WHERE "userId"=$2`
+                        const sql2 = `UPDATE users SET userStatus=? WHERE userId=?`
                         db.query(sql2, [status, data.userId], (err) => {
                             if (err) {
                                 return util.sendJson(res, { error: true, message: err.message }, 400)

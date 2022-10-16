@@ -79,7 +79,7 @@ export default class RegisterAuth {
 
     async #removeToken(token) {
         return new Promise((res, rej) => {
-            const sql = `DELETE FROM codes WHERE token=$1`
+            const sql = `DELETE FROM codes WHERE token=?`
             db.query(sql, [token], (err, data) => {
                 if (err) return rej(err)
                 res({ msg: "token deleted" })

@@ -34,7 +34,7 @@ class Notification {
             const { userId } = payload
 
             // check if user exists
-            const q1 = `SELECT * FROM users WHERE "userId"=$1`
+            const q1 = `SELECT * FROM users WHERE userId=?`
             db.query(q1, [userId.trim()], (err, result) => {
                 if (err) {
                     return util.sendJson(
@@ -44,7 +44,7 @@ class Notification {
                     );
                 }
 
-                if (result.rowCount === 0) {
+                if (result.length === 0) {
                     return util.sendJson(
                         res,
                         { error: true, message: "User doesnt exists." },
@@ -52,7 +52,7 @@ class Notification {
                     )
                 }
 
-                const sql = `SELECT * FROM notifications WHERE "userId"=$1`
+                const sql = `SELECT * FROM notifications WHERE userId=?`
                 db.query(sql, [userId.trim()], (err, data) => {
                     if (err) {
                         return util.sendJson(
@@ -66,9 +66,9 @@ class Notification {
                         res,
                         {
                             error: false,
-                            data: data.rows,
+                            data: data,
                         },
-                        400
+                        200
                     );
 
                 })
@@ -113,7 +113,7 @@ class Notification {
             const { userId, notificationId } = payload
 
             // check if user exists
-            const q1 = `SELECT * FROM users WHERE "userId"=$1`
+            const q1 = `SELECT * FROM users WHERE userId=?`
             db.query(q1, [userId.trim()], (err, result) => {
                 if (err) {
                     return util.sendJson(
@@ -123,7 +123,7 @@ class Notification {
                     );
                 }
 
-                if (result.rowCount === 0) {
+                if (result.length === 0) {
                     return util.sendJson(
                         res,
                         { error: true, message: "User doesnt exists." },
@@ -131,7 +131,7 @@ class Notification {
                     )
                 }
 
-                const sql = `SELECT * FROM notifications WHERE id=$1 AND "userId"=$2`
+                const sql = `SELECT * FROM notifications WHERE id=? AND userId=?`
                 db.query(sql, [notificationId.trim(), userId.trim()], (err, data) => {
                     if (err) {
                         return util.sendJson(
@@ -142,7 +142,7 @@ class Notification {
                     }
 
 
-                    if (data.rowCount === 0) {
+                    if (data.length === 0) {
                         return util.sendJson(
                             res,
                             { error: true, message: "Cant update notification: not found." },
@@ -152,7 +152,7 @@ class Notification {
 
 
                     const isSeen = true
-                    const q2 = `UPDATE notifications SET "isSeen"=$1 WHERE id=$2`
+                    const q2 = `UPDATE notifications SET isSeen=? WHERE id=?`
                     db.query(q2, [isSeen, notificationId.trim()], (err) => {
                         if (err) {
                             return util.sendJson(
@@ -210,7 +210,7 @@ class Notification {
 
             const { userId, notificationId } = payload
 
-            const q1 = `SELECT * FROM users WHERE "userId"=$1`
+            const q1 = `SELECT * FROM users WHERE userId=?`
             db.query(q1, [userId.trim()], (err, result) => {
                 if (err) {
                     return util.sendJson(
@@ -220,14 +220,14 @@ class Notification {
                     );
                 }
 
-                if (result.rowCount === 0) {
+                if (result.length === 0) {
                     res,
                         { error: true, message: "failed to delete: user doesnt exists." },
                         404
                 }
 
                 // check if notification exists
-                const q2 = `SELECT * FROM notifications WHERE id=$1`
+                const q2 = `SELECT * FROM notifications WHERE id=?`
                 db.query(q2, [notificationId.trim()], (err, result) => {
                     if (err) {
                         return util.sendJson(
@@ -237,7 +237,7 @@ class Notification {
                         );
                     }
 
-                    if (result.rowCount === 0) {
+                    if (result.length === 0) {
                         return util.sendJson(
                             res,
                             { error: true, message: "failed to delete: notification doesnt exists." },
@@ -245,7 +245,7 @@ class Notification {
                         )
                     }
 
-                    const sql = `DELETE FROM notifications WHERE "userId"=$1 AND id=$2`
+                    const sql = `DELETE FROM notifications WHERE userId=? AND id=?`
                     db.query(sql, [userId.trim(), notificationId.trim()], (err, data) => {
                         if (err) {
                             return util.sendJson(

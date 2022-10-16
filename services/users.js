@@ -12,7 +12,7 @@ export class Users {
                 if (err) {
                     return util.sendJson(res, { error: true, message: err.message }, 400);
                 }
-                return util.sendJson(res, { error: false, data: result.rows }, 200);
+                return util.sendJson(res, { error: false, data: result }, 200);
             });
         } catch (err) {
             console.log(err);
@@ -42,12 +42,12 @@ export class Users {
         }
 
         try {
-            const sql = `SELECT * FROM users WHERE "userId"=$1`;
+            const sql = `SELECT * FROM users WHERE userId=?`;
             db.query(sql, [payload.userId], (err, result) => {
                 if (err) {
                     return util.sendJson(res, { error: true, message: err.message }, 400);
                 }
-                return util.sendJson(res, { error: false, data: result.rows }, 200);
+                return util.sendJson(res, { error: false, data: result }, 200);
             });
         } catch (err) {
             console.log(err);
@@ -131,13 +131,13 @@ export class Users {
         try {
             // check if user exist
             const { userId, userName, mail, phoneNumber, passwordState } = payload;
-            const sql = `SELECT * FROM users WHERE "userId"=$1 AND mail=$2`;
+            const sql = `SELECT * FROM users WHERE userId=? AND mail=?`;
             db.query(sql, [userId.trim(), mail.trim()], (err, result) => {
                 if (err) {
                     return util.sendJson(res, { error: true, message: err.message }, 400);
                 }
 
-                if (result.rowCount === 0) {
+                if (result.length === 0) {
                     return util.sendJson(
                         res,
                         {
@@ -155,7 +155,7 @@ export class Users {
 
                 if (passwordState) {
                     const hash = util.genHash(payload.password, 10);
-                    sql = `UPDATE users SET "userName"=$1, mail=$2, "phoneNumber"=$3, hash=$4 WHERE "userId"=$5 AND mail=$6`;
+                    sql = `UPDATE users SET userName=?, mail=?, phoneNumber=?, hash=? WHERE userId=? AND mail=?`;
                     return db.query(
                         sql,
                         [
@@ -184,7 +184,7 @@ export class Users {
                     );
                 }
 
-                sql = `UPDATE users SET "userName"=$1, mail=$2, "phoneNumber"=$3 WHERE "userId"=$4 AND mail=$5`;
+                sql = `UPDATE users SET userName=?, mail=?, phoneNumber=? WHERE userId=? AND mail=?`;
                 db.query(
                     sql,
                     [
@@ -237,7 +237,7 @@ export class Users {
         try {
             // check if user exist
             const { userId } = payload;
-            const sql = `SELECT * FROM users WHERE "userId"=$1`;
+            const sql = `SELECT * FROM users WHERE userId=?`;
             db.query(sql, [userId.trim()], (err, result) => {
                 if (err) {
                     return util.sendJson(res, { error: true, message: err.message }, 400);
@@ -255,12 +255,12 @@ export class Users {
                 }
 
                 // delete related user data if account is deleted from database
-                const q1 = `DELETE FROM groups WHERE "memberId"=$1 OR "userId"=$2`;
-                const q2 = `DELETE FROM codes WHERE "userId"=$1`;
+                const q1 = `DELETE FROM groups WHERE memberId=? OR userId=?`;
+                const q2 = `DELETE FROM codes WHERE userId=?`;
                 // before deleting document, check if the document was uploaded by that user
-                const check = `SELECT * FROM documents WHERE "userId"=$1`
-                const q3 = `DELETE FROM documents WHERE "userId"=$1`;
-                const q4 = `DELETE FROM users WHERE "userId"=$1`;
+                const check = `SELECT * FROM documents WHERE userId=?`
+                const q3 = `DELETE FROM documents WHERE userId=?`;
+                const q4 = `DELETE FROM users WHERE userId=?`;
 
                 db.query(q1, [userId.trim(), userId.trim()], (err) => {
                     if (err) {
@@ -290,7 +290,7 @@ export class Users {
                                 );
                             }
 
-                            if (data2.rowCount > 0) {
+                            if (data2.length > 0) {
 
                                 // go ahead and execute
                                 return db.query(q3, [userId.trim()], (err) => {

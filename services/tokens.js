@@ -20,13 +20,13 @@ export function createTokens(res, data) {
 
         try {
             // check if officer id and userid exist in db
-            const q1 = `SELECT * FROM users WHERE "userId"=$1`
+            const q1 = `SELECT * FROM users WHERE userId=?`
             db.query(q1, [data.userId], (err, result) => {
                 if (err) {
                     return util.sendJson(res, { error: true, message: err.message }, 400)
                 }
 
-                if (result.rowCount === 0) {
+                if (result.length === 0) {
                     return util.sendJson(res, { error: true, message: "fail to generate code: user [id] doesnt exist" }, 404)
                 }
 
@@ -34,18 +34,18 @@ export function createTokens(res, data) {
 
 
                 // check if token exist in db
-                const sql1 = `SELECT * FROM codes WHERE token=$1 AND "userId"=$2`
+                const sql1 = `SELECT * FROM codes WHERE token=? AND userId=?`
                 db.query(sql1, [token, userId], (err, dataReturned) => {
                     if (err) {
                         return util.sendJson(res, { error: true, message: err.message }, 400)
                     }
 
-                    if (dataReturned.rowCount > 0) {
-                        return util.sendJson(res, { error: true, message: "fail to generate code: code already exist", code: dataReturned.rows[0].token }, 400)
+                    if (dataReturned.length > 0) {
+                        return util.sendJson(res, { error: true, message: "fail to generate code: code already exist", code: dataReturned[0].token }, 400)
                     }
 
                     const date = util.formatDate()
-                    const sql = `INSERT INTO codes("userId",token,"issued_at") VALUES($1,$2,$3)`;
+                    const sql = `INSERT INTO codes(userId,token,issued_at) VALUES(?,?,?)`;
                     db.query(sql, [userId, token, date], (err) => {
                         if (err) {
                             return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -77,34 +77,34 @@ export function getTokens(res, data) {
 
         try {
             // check if officer id and userid exist in db
-            const q1 = `SELECT * FROM users WHERE "userId"=$1`
+            const q1 = `SELECT * FROM users WHERE userId=?`
             db.query(q1, [data.userId], (err, result) => {
                 if (err) {
                     return util.sendJson(res, { error: true, message: err.message }, 400)
                 }
 
-                if (result.rowCount === 0) {
+                if (result.length === 0) {
                     return util.sendJson(res, { error: true, message: "fail to get tokens: user [id] doesnt exist" }, 404)
                 }
 
-                if (result.rows[0].userRole.toLowerCase() === "student") {
+                if (result[0].userRole.toLowerCase() === "student") {
                     return util.sendJson(res, { message: "you dont have permissions to get all tokens" }, 500)
                 }
-                else if (result.rows[0].userRole.toLowerCase() === "staff") {
+                else if (result[0].userRole.toLowerCase() === "staff") {
                     return util.sendJson(res, { message: "you dont have permissions to get tokens" }, 500)
                 }
-                else if (result.rows[0].userRole.toLowerCase() === "admin") {
+                else if (result[0].userRole.toLowerCase() === "admin") {
 
                     const { userId } = data;
 
                     // check if token exist in db
-                    const sql1 = `SELECT * FROM codes WHERE "userId"=$1`
+                    const sql1 = `SELECT * FROM codes WHERE userId=?`
                     db.query(sql1, [userId.trim()], (err, dataReturned) => {
                         if (err) {
                             return util.sendJson(res, { error: true, message: err.message }, 400)
                         }
 
-                        return util.sendJson(res, { error: false, data: dataReturned.rows }, 200)
+                        return util.sendJson(res, { error: false, data: dataReturned }, 200)
                     })
                 }
             })
@@ -133,44 +133,44 @@ export function deleteToken(res, data) {
 
         try {
             // check if user exist in db
-            const q1 = `SELECT * FROM users WHERE "userId"=$1`
+            const q1 = `SELECT * FROM users WHERE userId=?`
             db.query(q1, [data.userId.trim()], (err, result) => {
                 if (err) {
                     return util.sendJson(res, { error: true, message: err.message }, 400)
                 }
 
-                if (result.rowCount === 0) {
+                if (result.length === 0) {
                     return util.sendJson(res, { error: true, message: "fail to get tokens: user [id] doesnt exist" }, 404)
                 }
 
-                if (result.rows[0].userRole.toLowerCase() === "student") {
+                if (result[0].userRole.toLowerCase() === "student") {
                     return util.sendJson(res, { message: "you dont have permissions to get all tokens" }, 500)
                 }
-                else if (result.rows[0].userRole.toLowerCase() === "staff") {
+                else if (result[0].userRole.toLowerCase() === "staff") {
                     return util.sendJson(res, { message: "you dont have permissions to get tokens" }, 500)
                 }
-                else if (result.rows[0].userRole.toLowerCase() === "admin") {
+                else if (result[0].userRole.toLowerCase() === "admin") {
 
                     const { userId, token } = data;
 
                     // check if token exist in db
-                    const sql1 = `SELECT * FROM codes WHERE "userId"=$1 AND token=$2`
+                    const sql1 = `SELECT * FROM codes WHERE userId=? AND token=?`
                     db.query(sql1, [userId.trim(), token.trim()], (err, data1) => {
                         if (err) {
                             return util.sendJson(res, { error: true, message: err.message }, 400)
                         }
 
-                        if (data1.rowCount === 0) {
+                        if (data1.length === 0) {
                             return util.sendJson(res, { error: true, message: "failed to delete token: token not found" }, 404)
                         }
 
-                        const sql2 = `DELETE FROM codes WHERE "userId"=$1 AND token=$2`
+                        const sql2 = `DELETE FROM codes WHERE userId=? AND token=?`
                         db.query(sql2, [userId.trim(), token.trim()], (err, data2) => {
                             if (err) {
                                 return util.sendJson(res, { error: true, message: err.message }, 400)
                             }
 
-                            if (data2.rowCount === 0) {
+                            if (data2.length === 0) {
                                 return util.sendJson(res, { error: true, message: "failed to delete token: token not found" }, 404)
                             }
 
