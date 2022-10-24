@@ -139,7 +139,7 @@ const PORT = process.env.PORT || 5000;
 //   });
 // })
 
-// connect using mysql
+// connect SingleStore mysql
 
 conn.connect((err) => {
   if (err) {

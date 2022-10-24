@@ -409,4 +409,4 @@ As you well know that this system allow sending of mails using Gmail smtp mail s
 
    <img src="https://raw.githubusercontent.com/Benrobo/e-workflow-client/main/readmeImg/mail.PNG">
 
-8. Try sending to your own mail address just to test it out. If rit works, then you know youve `SUCESSFULLY` setup sending of mail from this application.
+8. Try sending to your own mail address just to test it out. If it works, then you know you've `SUCESSFULLY` setup sending of mail from this application.
