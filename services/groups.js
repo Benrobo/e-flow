@@ -16,7 +16,7 @@ export default class Group {
         }
 
         try {
-            const sql = `SELECT * FROM groups WHERE "memberId"=$1`
+            const sql = `SELECT * FROM groups WHERE memberId=?`
             db.query(sql, [payload.userId.trim()], (err, result) => {
                 if (err) {
                     return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -49,7 +49,7 @@ export default class Group {
 
         try {
             // check if user exist first
-            const q1 = `SELECT * FROM users WHERE "userId"=$1`
+            const q1 = `SELECT * FROM users WHERE userId=?`
             db.query(q1, [payload.userId.trim()], (err, data1) => {
                 if (err) {
                     return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -60,7 +60,7 @@ export default class Group {
                 }
 
                 // check  if groups exists
-                const q2 = `SELECT * FROM groups WHERE id=$1`
+                const q2 = `SELECT * FROM groups WHERE id=?`
                 db.query(q2, [payload.groupId.trim()], (err, data2) => {
                     if (err) {
                         return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -73,21 +73,21 @@ export default class Group {
                     const sql = `
                             SELECT 
                                 groups.id,
-                                groups."userId",
-                                groups."memberId",
+                                groups.userId,
+                                groups.memberId,
                                 groups.name,
-                                groups."courseName",
-                                groups."courseType",
-                                users."userName",
+                                groups.courseName,
+                                groups.courseType,
+                                users.userName,
                                 users.mail
                             FROM
                                 groups
                             INNER JOIN
                                 users
                             ON
-                                users."userId"=groups."memberId"
+                                users.userId=groups.memberId
                             WHERE
-                                groups.id=$1
+                                groups.id=?
                             `
                     db.query(sql, [payload.groupId.trim()], (err, result) => {
                         if (err) {
@@ -130,7 +130,7 @@ export default class Group {
 
             // check if user exist
             try {
-                const sql = `SELECT * FROM users WHERE "userId"=$1`
+                const sql = `SELECT * FROM users WHERE userId=?`
                 db.query(sql, [payload.studentId.trim()], (err, result) => {
                     if (err) {
                         return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -147,7 +147,7 @@ export default class Group {
 
                     // check if user already exist in a group before creating new group
 
-                    const sql2 = `SELECT * FROM groups WHERE name=$1 AND "userId"=$2`
+                    const sql2 = `SELECT * FROM groups WHERE name=? AND userId=?`
                     db.query(sql2, [payload.name.trim(), payload.studentId.trim()], (err, data1) => {
                         if (err) {
                             return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -162,7 +162,7 @@ export default class Group {
                         const id = util.genId()
                         const date = util.formatDate()
 
-                        let sql3 = `INSERT INTO groups(id, name, "courseType", "courseName","userId", "memberId","created_at") VALUES($1, $2, $3, $4, $5, $6,$7)`
+                        let sql3 = `INSERT INTO groups(id, name, courseType, courseName,userId, memberId,created_at) VALUES(?, ?, ?, ?, ?, ?,?)`
                         db.query(sql3, [id, name.trim(), courseType.trim(), courseName.trim(), studentId.trim(), studentId.trim(), date.trim()], (err, data) => {
                             if (err) {
                                 return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -200,7 +200,7 @@ export default class Group {
 
             try {
                 // 1. check if user exists in main database
-                const sql1 = `SELECT "userId" FROM users WHERE "userId"=$1`
+                const sql1 = `SELECT userId FROM users WHERE userId=?`
                 db.query(sql1, [payload.userId.trim()], (err, result) => {
                     if (err) {
                         return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -212,7 +212,7 @@ export default class Group {
 
                     // check if member exist in database cause we wanna prevent adding members whichn doesnt exists
 
-                    const sql2 = `SELECT "userId" FROM users WHERE "userId"=$1`
+                    const sql2 = `SELECT userId FROM users WHERE userId=?`
                     db.query(sql2, [payload.memberId.trim()], (err, result) => {
                         if (err) {
                             return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -225,7 +225,7 @@ export default class Group {
                         //  check if the user id has a role of either staff or admin
                         // we dont want student to add staff or admin to individual created group
 
-                        const sql3 = `SELECT * FROM users WHERE "userId"=$1`
+                        const sql3 = `SELECT * FROM users WHERE userId=?`
                         db.query(sql3, [payload.memberId.trim()], (err, data1) => {
                             if (err) {
                                 return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -236,7 +236,7 @@ export default class Group {
                             }
 
                             // 3. check if group exists;
-                            const sql3 = `SELECT * FROM groups WHERE id=$1 AND "userId"=$2`
+                            const sql3 = `SELECT * FROM groups WHERE id=? AND userId=?`
                             db.query(sql3, [payload.groupId.trim(), payload.userId.trim()], (err, data2) => {
                                 if (err) {
                                     return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -248,7 +248,7 @@ export default class Group {
 
                                 // check if member already exist in group
 
-                                const sql4 = `SELECT * FROM groups WHERE "memberId"=$1 AND id=$2`
+                                const sql4 = `SELECT * FROM groups WHERE memberId=? AND id=?`
                                 db.query(sql4, [payload.memberId.trim(), payload.groupId.trim()], (err, data3) => {
                                     if (err) {
                                         return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -264,7 +264,7 @@ export default class Group {
                                     const courseName = data2.rows[0].courseName;
                                     const courseType = data2.rows[0].courseType;
 
-                                    let sql5 = `INSERT INTO groups(id, name, "courseName", "courseType","userId","memberId","created_at") VALUES($1, $2, $3, $4,$5,$6,$7)`
+                                    let sql5 = `INSERT INTO groups(id, name, courseName, courseType,userId,memberId,created_at) VALUES(?, ?, ?, ?,?,?,?)`
                                     db.query(sql5, [groupId.trim(), groupName, courseName, courseType, userId.trim(), memberId.trim(), date.trim()], (err) => {
                                         if (err) {
                                             return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -309,7 +309,7 @@ export default class Group {
             }
             // check if user exist
             try {
-                const sql = `SELECT * FROM users WHERE "userId"=$1`
+                const sql = `SELECT * FROM users WHERE userId=?`
                 db.query(sql, [payload.userId], (err, result) => {
                     if (err) {
                         return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -320,7 +320,7 @@ export default class Group {
                     }
 
                     // check if user already exist in a group before editing group info
-                    const sql2 = `SELECT * FROM groups WHERE id=$1`
+                    const sql2 = `SELECT * FROM groups WHERE id=?`
                     db.query(sql2, [payload.groupId.trim()], (err, data1) => {
                         if (err) {
                             return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -332,7 +332,7 @@ export default class Group {
 
                         // check if user belong to that group
 
-                        const sql3 = `SELECT * FROM groups WHERE id=$1 AND "userId"=$2`
+                        const sql3 = `SELECT * FROM groups WHERE id=? AND userId=?`
                         db.query(sql3, [payload.groupId.trim(), payload.userId.trim()], (err, data2) => {
                             if (err) {
                                 return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -344,7 +344,7 @@ export default class Group {
 
                             const { name, courseName, courseType, groupId } = payload;
 
-                            const sql3 = `UPDATE groups SET "courseName"=$1, "courseType"=$2, "name"=$3 WHERE id=$4`
+                            const sql3 = `UPDATE groups SET courseName=?, courseType=?, name=? WHERE id=?`
                             db.query(sql3, [courseName.trim(), courseType.trim(), name.trim(), groupId.trim()], (err) => {
                                 if (err) {
                                     return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -383,7 +383,7 @@ export default class Group {
             }
             // check if user exist
             try {
-                const sql = `SELECT * FROM users WHERE "userId"=$1 OR "userId"=$2`
+                const sql = `SELECT * FROM users WHERE userId=? OR userId=?`
                 db.query(sql, [payload.userId.trim(), payload.memberId.trim()], (err, result) => {
                     if (err) {
                         return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -395,7 +395,7 @@ export default class Group {
                     }
 
                     // check if user already exist in a group before deleting group members
-                    const sql2 = `SELECT * FROM groups WHERE id=$1`
+                    const sql2 = `SELECT * FROM groups WHERE id=?`
                     db.query(sql2, [payload.groupId.trim()], (err, data1) => {
                         if (err) {
                             return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -406,7 +406,7 @@ export default class Group {
                         }
 
                         // check if userid trying to delete group member detail is present
-                        const sql3 = `SELECT * FROM groups WHERE id=$1 AND "userId"=$2`
+                        const sql3 = `SELECT * FROM groups WHERE id=? AND userId=?`
                         db.query(sql3, [payload.groupId.trim(), payload.userId.trim()], (err, data2) => {
                             if (err) {
                                 return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -417,7 +417,7 @@ export default class Group {
                             }
 
                             // check if member exist before deletion takes place
-                            const sql4 = `SELECT * FROM groups WHERE id=$1 AND "memberId"=$2`
+                            const sql4 = `SELECT * FROM groups WHERE id=? AND memberId=?`
                             db.query(sql4, [payload.groupId.trim(), payload.memberId.trim()], (err, data3) => {
                                 if (err) {
                                     return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -429,7 +429,7 @@ export default class Group {
 
                                 const { groupId, memberId } = payload;
 
-                                const sql3 = `DELETE FROM groups WHERE id=$1 AND "memberId"=$2`
+                                const sql3 = `DELETE FROM groups WHERE id=? AND memberId=?`
                                 db.query(sql3, [groupId.trim(), memberId.trim()], (err) => {
                                     if (err) {
                                         return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -466,7 +466,7 @@ export default class Group {
             }
             // check if user exist
             try {
-                const sql = `SELECT * FROM users WHERE "userId"=$1`
+                const sql = `SELECT * FROM users WHERE userId=?`
                 db.query(sql, [payload.userId], (err, result) => {
                     if (err) {
                         return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -477,7 +477,7 @@ export default class Group {
                     }
 
                     // check if user already exist in a group before creating editing group info
-                    const sql2 = `SELECT * FROM groups WHERE id=$1 AND "userId"=$2`
+                    const sql2 = `SELECT * FROM groups WHERE id=? AND userId=?`
                     db.query(sql2, [payload.groupId.trim(), payload.userId.trim()], (err, data1) => {
                         if (err) {
                             return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -487,8 +487,8 @@ export default class Group {
                             return util.sendJson(res, { error: false, message: `fail to delete group, you dont belong to the group id provided` }, 404)
                         }
 
-                        let q1 = `DELETE FROM documents WHERE "groupId"=$1 AND "userId"=$2`
-                        let q2 = `DELETE FROM "docFeedback" WHERE "groupId"=$1`
+                        let q1 = `DELETE FROM documents WHERE groupId=? AND userId=?`
+                        let q2 = `DELETE FROM docFeedback WHERE groupId=?`
                         const { groupId, userId } = payload;
 
                         // go ahead if it was the student who posted it
@@ -503,7 +503,7 @@ export default class Group {
                                     return util.sendJson(res, { error: true, message: err.message }, 400)
                                 }
 
-                                const q4 = `DELETE FROM groups WHERE id=$1 AND "userId"=$2`
+                                const q4 = `DELETE FROM groups WHERE id=? AND userId=?`
                                 db.query(q4, [groupId.trim(), userId.trim()], (err) => {
                                     if (err) {
                                         return util.sendJson(res, { error: true, message: err.message }, 400)
