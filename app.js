@@ -46,7 +46,9 @@ import queryDB from "./helpers/query.js";
 
 dotenv.config();
 // main middlewares
-app.use(cors());
+app.use(cors({
+  origin: "*"
+}));
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use((req, res, next) => {
