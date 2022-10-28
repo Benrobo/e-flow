@@ -46,8 +46,10 @@ import queryDB from "./helpers/query.js";
 
 dotenv.config();
 // main middlewares
+
+//["http://localhost:3000", "https://e-flow.vercel.app", "https://calm-bull-stole.cyclic.app"]
 app.use(cors({
-  origin: ["http://localhost:3000", "https://e-flow.vercel.app", "https://calm-bull-stole.cyclic.app"],
+  origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"]
 }));
 app.use(bodyParser.json({ limit: "50mb" }));
