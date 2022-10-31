@@ -180,10 +180,10 @@ export default class Document {
               groupId,
               status,
               HOD,
-              hodName: data1.rows[0].userName,
+              hodName: data1[0].userName,
               studentName: userName,
               type,
-              documentPermissions: data1.rows[0].documentPermissions,
+              documentPermissions: data1[0].documentPermissions,
               file,
             };
 
@@ -312,7 +312,7 @@ export default class Document {
       try {
         let groupData = {};
 
-        const sql = `SELECT * FROM documents WHERE "groupId"=$1`;
+        const sql = `SELECT * FROM documents WHERE groupId=?`;
         db.query(sql, [payload.groupId.trim()], (err, result) => {
           if (err) {
             return util.sendJson(
@@ -322,9 +322,9 @@ export default class Document {
             );
           }
 
-          if (result.rows.length > 0) {
-            groupData["name"] = result.rows[0].name;
-            groupData["users"] = result.rows[0].users;
+          if (result.length > 0) {
+            groupData["name"] = result[0].name;
+            groupData["users"] = result[0].users;
           }
 
           // return util.sendJson(res, { error: false, data: result.rows }, 200)
@@ -713,7 +713,7 @@ export default class Document {
                           const status = "pending";
                           const date = util.formatDate();
 
-                          const sql4 = `INSERT INTO documents(id,title,"documentType","courseType","courseName","userId", "groupId","supervisor", "externalSupervisor", "HOD","status","file","created_at") VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)`;
+                          const sql4 = `INSERT INTO documents(id,title,documentType,courseType,courseName,userId, groupId,supervisor, externalSupervisor, HOD,status,file,created_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`;
                           db.query(
                             sql4,
                             [
@@ -1344,7 +1344,7 @@ export default class Document {
             }
 
             // check if group exists
-            const sql2 = `SELECT * FROM groups WHERE id=$1`;
+            const sql2 = `SELECT * FROM groups WHERE id=?`;
             db.query(sql2, [payload.groupId.trim()], (err, data2) => {
               if (err) {
                 return util.sendJson(
@@ -1382,7 +1382,7 @@ export default class Document {
               }
 
               // check if document which the group is trying to edit exists
-              const sql3 = `SELECT * FROM documents WHERE "groupId"=$1 AND "documentType"=$2 AND "userId"=$3 AND id=$4`;
+              const sql3 = `SELECT * FROM documents WHERE groupId=? AND documentType=? AND userId=? AND id=?`;
               db.query(
                 sql3,
                 [
@@ -1400,7 +1400,7 @@ export default class Document {
                     );
                   }
 
-                  if (data3.rowCount === 0) {
+                  if (data3.length === 0) {
                     return util.sendJson(
                       res,
                       {
@@ -1427,7 +1427,7 @@ export default class Document {
 
                   // check if the user is trying to edit file
                   if (changeFile === false) {
-                    const sql4 = `UPDATE documents SET title=$1, "documentType"=$2,"courseType"=$3,"courseName"=$4, "userId"=$5 ,"groupId"=$6 ,"staffId"=$7 ,"created_at"=$8 WHERE "groupId"=$9 AND "userId"=$10 AND id=$11`;
+                    const sql4 = `UPDATE documents SET title=?, documentType=?,courseType=?,courseName=?, userId=? ,groupId=? ,staffId=? ,created_at=? WHERE groupId=? AND userId=? AND id=?`;
                     db.query(
                       sql4,
                       [
@@ -1466,7 +1466,7 @@ export default class Document {
 
                   if (changeFile === true) {
                     const fileData = payload.file.data;
-                    const sql5 = `UPDATE documents SET title=$1, "documentType"=$2,"courseType"=$3,"courseName"=$4, "userId"=$5 ,"groupId"=$6, "staffId"=$7, file=$8 ,"created_at"=$9 WHERE "groupId"=$10 AND "userId"=$11 AND id=$12`;
+                    const sql5 = `UPDATE documents SET title=?, documentType=?,courseType=?,courseName=?, userId=? ,groupId=?, staffId=?, file=? ,created_at=? WHERE groupId=?0 AND userId=? AND id=?`;
 
                     db.query(
                       sql5,
@@ -1628,7 +1628,7 @@ export default class Document {
 
       // check if user exist
       try {
-        const sql = `SELECT * FROM users WHERE "userId"=$1`;
+        const sql = `SELECT * FROM users WHERE userId=?`;
         db.query(sql, [payload.userId.trim()], (err, result) => {
           if (err) {
             return util.sendJson(
@@ -1650,7 +1650,7 @@ export default class Document {
           }
 
           // check if user editting document isnt a staff
-          if (result.rows[0].type === "staff") {
+          if (result[0].type === "staff") {
             return util.sendJson(
               res,
               {
@@ -1671,7 +1671,7 @@ export default class Document {
               );
             }
 
-            if (data1.rowCount === 0) {
+            if (data1.length === 0) {
               return util.sendJson(
                 res,
                 {
@@ -1684,7 +1684,7 @@ export default class Document {
             }
 
             // check if user submitting document is a staff
-            if (data1.rows[0].type !== "staff") {
+            if (data1[0].type !== "staff") {
               return util.sendJson(
                 res,
                 { error: true, message: "cordinator added isnt a staff" },
@@ -1694,7 +1694,7 @@ export default class Document {
 
             // check if document which the group is trying to edit exists
 
-            const sql3 = `SELECT * FROM documents WHERE id=$1 AND "documentType"=$2 AND "userId"=$3`;
+            const sql3 = `SELECT * FROM documents WHERE id=? AND documentType=? AND userId=?`;
             db.query(
               sql3,
               [
@@ -1711,7 +1711,7 @@ export default class Document {
                   );
                 }
 
-                if (data3.rowCount === 0) {
+                if (data3.length === 0) {
                   return util.sendJson(
                     res,
                     {
@@ -1774,7 +1774,7 @@ export default class Document {
 
                 if (changeFile === true) {
                   const fileData = payload.file.data;
-                  const sql5 = `UPDATE documents SET title=$1, "documentType"=$2,"courseType"=$3,"courseName"=$4, "userId"=$5, "staffId"=$6, file=$7 ,"created_at"=$8 WHERE "userId"=$9 AND id=$10`;
+                  const sql5 = `UPDATE documents SET title=?, documentType=?,courseType=?,courseName=?, userId=? ,groupId=?, staffId=?, file=? ,created_at=? WHERE groupId=?0 AND userId=? AND id=?`;
 
                   db.query(
                     sql5,
@@ -2018,19 +2018,19 @@ export default class Document {
       try {
         const sql = `
                         SELECT 
-                            "docFeedback".id,
-                            "docFeedback".note,
-                            "docFeedback"."staffId",
-                            "docFeedback"."documentId",
-                            users."userName"
+                            docFeedback.id,
+                            docFeedback.note,
+                            docFeedback.staffId,
+                            docFeedback.documentId,
+                            users.userName
                         FROM 
-                            "docFeedback"
+                            docFeedback
                         INNER JOIN
                             users
                         ON
-                            users."userId"="docFeedback"."staffId"
+                            users.userId=docFeedback.staffId
                         WHERE
-                            "docFeedback"."documentId"=$1
+                            docFeedback.documentId=?
                         `;
         db.query(sql, [payload.documentId.trim()], async (err, result) => {
           if (err) {
@@ -2109,7 +2109,7 @@ export default class Document {
 
       // check if user exist
       try {
-        const sql = `SELECT * FROM users WHERE "userId"=$1`;
+        const sql = `SELECT * FROM users WHERE userId=?`;
         db.query(sql, [payload.staffId.trim()], (err, result) => {
           if (err) {
             return util.sendJson(
@@ -2119,7 +2119,7 @@ export default class Document {
             );
           }
 
-          if (result.rowCount === 0) {
+          if (result.length === 0) {
             return util.sendJson(
               res,
               {
@@ -2132,7 +2132,7 @@ export default class Document {
           }
 
           // check if user submitting document isnt a student
-          if (result.rows[0].type === "student") {
+          if (result[0].type === "student") {
             return util.sendJson(
               res,
               {
@@ -2154,7 +2154,7 @@ export default class Document {
               );
             }
 
-            if (data1.rowCount === 0) {
+            if (data1.length === 0) {
               return util.sendJson(
                 res,
                 {
@@ -2167,7 +2167,7 @@ export default class Document {
             }
 
             // check if document which the staff is trying to submit already exists
-            const sql3 = `SELECT * FROM documents WHERE id=$1`;
+            const sql3 = `SELECT * FROM documents WHERE id=?`;
             db.query(sql3, [payload.documentId.trim()], (err, data4) => {
               if (err) {
                 return util.sendJson(
@@ -2194,7 +2194,7 @@ export default class Document {
               const id = util.genId();
               const date = util.formatDate();
 
-              const sql4 = `INSERT INTO "docFeedback"(id,note,"staffId","documentId","created_at") VALUES($1,$2,$3,$4,$5)`;
+              const sql4 = `INSERT INTO docFeedback(id,note,staffId,documentId,created_at) VALUES(?,?,?,?,?)`;
               db.query(
                 sql4,
                 [
@@ -2278,7 +2278,7 @@ export default class Document {
 
       // check if user exist
       try {
-        const sql = `SELECT * FROM users WHERE "userId"=$1`;
+        const sql = `SELECT * FROM users WHERE userId=?`;
         db.query(sql, [payload.staffId.trim()], (err, result) => {
           if (err) {
             return util.sendJson(
@@ -2288,7 +2288,7 @@ export default class Document {
             );
           }
 
-          if (result.rowCount === 0) {
+          if (result.length === 0) {
             return util.sendJson(
               res,
               {
@@ -2301,7 +2301,7 @@ export default class Document {
           }
 
           // check if user deleting document isnt a staff
-          if (result.rows[0].type === "student") {
+          if (result[0].type === "student") {
             return util.sendJson(
               res,
               {
@@ -2314,7 +2314,7 @@ export default class Document {
           }
 
           // check if document which the staff is trying to delete exists
-          const sql2 = `SELECT * FROM documents WHERE id=$1`;
+          const sql2 = `SELECT * FROM documents WHERE id=?`;
           db.query(sql2, [payload.documentId.trim()], (err, data1) => {
             if (err) {
               return util.sendJson(
@@ -2324,7 +2324,7 @@ export default class Document {
               );
             }
 
-            if (data1.rowCount === 0) {
+            if (data1.length === 0) {
               return util.sendJson(
                 res,
                 {
@@ -2339,7 +2339,7 @@ export default class Document {
             const { feedbackId, documentId, staffId } = payload;
 
             // check if feedback exist before deletting
-            const q3 = `SELECT * FROM "docFeedback" WHERE id=$1 AND "staffId"=$2`;
+            const q3 = `SELECT * FROM docFeedback WHERE id=? AND staffId=?`;
             db.query(q3, [feedbackId.trim(), staffId.trim()], (err, data2) => {
               if (err) {
                 return util.sendJson(
@@ -2349,7 +2349,7 @@ export default class Document {
                 );
               }
 
-              if (data2.rowCount === 0) {
+              if (data2.length === 0) {
                 return util.sendJson(
                   res,
                   {
@@ -2360,7 +2360,7 @@ export default class Document {
                 );
               }
 
-              const sql3 = `DELETE FROM "docFeedback" WHERE id=$1 AND "staffId"=$2 AND "documentId"=$3`;
+              const sql3 = `DELETE FROM docFeedback WHERE id=? AND staffId=? AND documentId=?`;
               db.query(
                 sql3,
                 [feedbackId.trim(), staffId.trim(), documentId.trim()],

@@ -63,19 +63,19 @@ class Signature {
 
             const sql = `
                 SELECT
-                    signatures."image",
+                    signatures.image,
                     signatures.id,
-                    signatures."staffId",
-                    users."userName",
-                    users."documentPermissions"
+                    signatures.staffId,
+                    users.userName,
+                    users.documentPermissions
                 FROM 
                     signatures
                 INNER JOIN
                     users
                 ON
-                    users."userId"=signatures."staffId"
+                    users.userId=signatures.staffId
                 WHERE
-                    signatures."documentId"=$1
+                    signatures.documentId=?
             `
             db.query(sql, [documentId.trim()], (err, data) => {
                 if (err) {
@@ -90,7 +90,7 @@ class Signature {
                     res,
                     {
                         error: false,
-                        data: data.rows,
+                        data: data,
                     },
                     400
                 );
@@ -167,7 +167,7 @@ class Signature {
             try {
 
                 const { documentId, documentType, staffId, studentId, image } = payload;
-                const sql = `SELECT * FROM users WHERE "userId"=$1`;
+                const sql = `SELECT * FROM users WHERE userId=?`;
                 db.query(sql, [staffId.trim()], (err, result) => {
                     if (err) {
                         return util.sendJson(
@@ -177,7 +177,7 @@ class Signature {
                         );
                     }
 
-                    if (result.rowCount === 0) {
+                    if (result.length === 0) {
                         return util.sendJson(
                             res,
                             {
@@ -189,7 +189,7 @@ class Signature {
                     }
 
                     // check the usertype cause we dont wanna allow student adding signature
-                    if (result.rows[0].type === "student") {
+                    if (result[0].type === "student") {
                         return util.sendJson(
                             res,
                             {
@@ -201,7 +201,7 @@ class Signature {
                     }
 
                     // check if the studentId exists
-                    const sql2 = `SELECT * FROM users WHERE "userId"=$1`;
+                    const sql2 = `SELECT * FROM users WHERE userId=?`;
                     db.query(sql2, [studentId.trim()], (err, result2) => {
                         if (err) {
                             return util.sendJson(
@@ -211,7 +211,7 @@ class Signature {
                             );
                         }
 
-                        if (result2.rowCount === 0) {
+                        if (result2.length === 0) {
                             return util.sendJson(
                                 res,
                                 {
@@ -223,7 +223,7 @@ class Signature {
                         }
 
                         // check if the user was actually the one who submitted the doc
-                        const check1 = `SELECT * FROM documents WHERE "userId"=$1 AND id=$2`;
+                        const check1 = `SELECT * FROM documents WHERE userId=? AND id=?`;
                         db.query(check1, [studentId.trim(), documentId.trim()], (err, result3) => {
                             if (err) {
                                 return util.sendJson(
@@ -233,7 +233,7 @@ class Signature {
                                 );
                             }
 
-                            if (result3.rowCount === 0) {
+                            if (result3.length === 0) {
                                 return util.sendJson(
                                     res,
                                     {
@@ -247,7 +247,7 @@ class Signature {
                             // check the document permissions cause we only wanna allow those having valid permissions
                             const validPermission = [2, 4, 5, 6, 7]
 
-                            if (!validPermission.includes(result.rows[0].documentPermissions)) {
+                            if (!validPermission.includes(result[0].documentPermissions)) {
                                 return util.sendJson(
                                     res,
                                     {
@@ -259,7 +259,7 @@ class Signature {
                             }
 
                             // check if document exist
-                            const q1 = `SELECT * FROM documents WHERE id=$1`
+                            const q1 = `SELECT * FROM documents WHERE id=?`
                             db.query(q1, [documentId.trim()], (err, data1) => {
                                 if (err) {
                                     return util.sendJson(
@@ -269,7 +269,7 @@ class Signature {
                                     );
                                 }
 
-                                if (data1.rowCount === 0) {
+                                if (data1.length === 0) {
                                     return util.sendJson(
                                         res,
                                         {
@@ -287,7 +287,7 @@ class Signature {
                                 let staffSignatureCheck = false
 
 
-                                const q2 = `SELECT * FROM signatures WHERE "documentId"=$1 AND "staffId"=$2`
+                                const q2 = `SELECT * FROM signatures WHERE documentId=? AND staffId=?`
                                 db.query(q2, [documentId.trim(), staffId.trim()], (err, data2) => {
                                     if (err) {
                                         return util.sendJson(
@@ -307,7 +307,7 @@ class Signature {
 
                                     // check then total signature and approve user document
                                     // check the total length of signature for a specific documents
-                                    const checkSignatureLength = `SELECT * FROM signatures WHERE "documentId"=$1`
+                                    const checkSignatureLength = `SELECT * FROM signatures WHERE documentId=?`
                                     db.query(checkSignatureLength, [documentId.trim()], (err, checkRes) => {
                                         if (err) {
                                             return util.sendJson(
@@ -319,16 +319,16 @@ class Signature {
 
                                         // return console.log(checkRes.rows);
 
-                                        staffSignatureLength = checkRes.rows.length
+                                        staffSignatureLength = checkRes.length
 
                                         // check length if it equal to 3 and update document table
-                                        const { mail, userName } = result2.rows[0]
-                                        const staffData = result.rows[0]
+                                        const { mail, userName } = result2[0]
+                                        const staffData = result[0]
 
                                         if (staffSignatureLength === 2) {
                                             // update document table 
                                             const docStatus = "approved"
-                                            const updatesql = `UPDATE documents SET status=$1 WHERE id=$2`
+                                            const updatesql = `UPDATE documents SET status=? WHERE id=?`
                                             return db.query(updatesql, [docStatus, documentId.trim()], (err) => {
                                                 if (err) {
                                                     return util.sendJson(
@@ -369,7 +369,7 @@ class Signature {
                                                 // INsert last staff in db
                                                 const id = util.genId()
                                                 const date = util.formatDate()
-                                                const q3 = `INSERT INTO signatures(id,"documentId", "staffId", image, "documentType", "issued_at") VALUES($1,$2,$3,$4,$5,$6)`
+                                                const q3 = `INSERT INTO signatures(id,documentId, staffId, image, documentType, issued_at) VALUES(?,?,?,?,?,?)`
 
                                                 db.query(q3, [id, documentId.trim(), staffId.trim(), image.trim(), documentType.trim(), date], (err) => {
                                                     if (err) {
@@ -388,7 +388,7 @@ class Signature {
                                                     const type = "document signature"
                                                     const message = `Your ${documentType === "CF" ? "Course Form Document" : "Final Project Document"} Has been approved`
 
-                                                    const q4 = `INSERT INTO notifications(id, "userId","staffId",message,"isSeen", type, "issued_at") VALUES($1,$2,$3,$4,$5,$6,$7)`
+                                                    const q4 = `INSERT INTO notifications(id, userId,staffId,message,isSeen, type, issued_at) VALUES(?,?,?,?,?,?,?)`
                                                     db.query(q4, [id, studentId.trim(), staffId.trim(), message, isSeen, type, joined], (err) => {
                                                         if (err) {
                                                             return util.sendJson(
@@ -449,7 +449,7 @@ class Signature {
                                         // insert signature in db
                                         const id = util.genId()
                                         const date = util.formatDate()
-                                        const q3 = `INSERT INTO signatures(id,"documentId", "staffId", image, "documentType", "issued_at") VALUES($1,$2,$3,$4,$5,$6)`
+                                        const q3 = `INSERT INTO signatures(id,documentId, staffId, image, documentType, issued_at) VALUES(?,?,?,?,?,?)`
 
                                         db.query(q3, [id, documentId.trim(), staffId.trim(), image.trim(), documentType.trim(), date], (err) => {
                                             if (err) {
@@ -468,7 +468,7 @@ class Signature {
                                             const type = "document signature"
                                             const message = `Your ${documentType === "CF" ? "Course Form Document" : "Final Project Document"} Has been signed by <b>${staffData.userName}</b> ${docPermission(staffData.documentPermissions)}`
 
-                                            const q4 = `INSERT INTO notifications(id, "userId","staffId",message,"isSeen", type, "issued_at") VALUES($1,$2,$3,$4,$5,$6,$7)`
+                                            const q4 = `INSERT INTO notifications(id, userId,staffId,message,isSeen, type, issued_at) VALUES(?,?,?,?,?,?,?)`
                                             db.query(q4, [id, studentId.trim(), staffId.trim(), message, isSeen, type, joined], (err) => {
                                                 if (err) {
                                                     return util.sendJson(
@@ -647,7 +647,7 @@ class Signature {
             try {
 
                 const { documentId, signatureId, studentId, staffId } = payload;
-                const sql = `SELECT * FROM users WHERE "userId"=$1`;
+                const sql = `SELECT * FROM users WHERE userId=?`;
                 db.query(sql, [staffId.trim()], (err, result) => {
                     if (err) {
                         return util.sendJson(
@@ -657,7 +657,7 @@ class Signature {
                         );
                     }
 
-                    if (result.rowCount === 0) {
+                    if (result.length === 0) {
                         return util.sendJson(
                             res,
                             {
@@ -669,7 +669,7 @@ class Signature {
                     }
 
                     // check the usertype cause we dont wanna allow student deleting signature
-                    if (result.rows[0].type === "student") {
+                    if (result[0].type === "student") {
                         return util.sendJson(
                             res,
                             {
@@ -695,7 +695,7 @@ class Signature {
                     }
 
                     // check if student exist in db
-                    const checkstudent = `SELECT * FROM users WHERE "userId"=$1`
+                    const checkstudent = `SELECT * FROM users WHERE userId=?`
                     db.query(checkstudent, [studentId.trim()], (err, studentData) => {
                         if (err) {
                             return util.sendJson(
@@ -705,7 +705,7 @@ class Signature {
                             );
                         }
 
-                        if (studentData.rowCount === 0) {
+                        if (studentData.length === 0) {
                             return util.sendJson(
                                 res,
                                 {
@@ -717,7 +717,7 @@ class Signature {
                         }
 
                         // check if document exist
-                        const q1 = `SELECT * FROM documents WHERE id=$1`
+                        const q1 = `SELECT * FROM documents WHERE id=?`
                         db.query(q1, [documentId.trim()], (err, data1) => {
                             if (err) {
                                 return util.sendJson(
@@ -740,7 +740,7 @@ class Signature {
 
                             // check if signature exists
 
-                            const q2 = `SELECT * FROM signatures WHERE "id"=$1 AND "staffId"=$2`
+                            const q2 = `SELECT * FROM signatures WHERE id=? AND staffId=?`
                             db.query(q2, [signatureId.trim(), staffId.trim()], (err, data2) => {
                                 if (err) {
                                     return util.sendJson(
@@ -750,7 +750,7 @@ class Signature {
                                     );
                                 }
 
-                                if (data2.rowCount === 0) {
+                                if (data2.length === 0) {
                                     return util.sendJson(
                                         res,
                                         {
@@ -763,7 +763,7 @@ class Signature {
 
                                 // delete signature
 
-                                const q3 = `DELETE FROM signatures WHERE id=$1 AND "staffId"=$2`
+                                const q3 = `DELETE FROM signatures WHERE id=? AND staffId=?`
 
                                 db.query(q3, [signatureId.trim(), staffId.trim()], (err) => {
                                     if (err) {
@@ -777,7 +777,7 @@ class Signature {
                                     // deleting the signature would make the document in pending state, so we need to update the document based on the id and also send a notification to the student.
 
                                     // document update statement
-                                    const q4 = `UPDATE documents SET status=$1 WHERE id=$2`
+                                    const q4 = `UPDATE documents SET status=? WHERE id=?`
                                     const status = "pending"
                                     db.query(q4, [status, documentId.trim()], (err) => {
                                         if (err) {
@@ -795,7 +795,7 @@ class Signature {
                                         const type = "document signature"
                                         const message = `${result.rows[0].userName} (${docPermission(result.rows[0].documentPermissions)}) deleted [her/his] signature from your ${data1.rows[0].documentType === "CF" ? "Course Form Document" : "Final Project Document"} `
 
-                                        const q5 = `INSERT INTO notifications(id, "userId","staffId",message,"isSeen", type, "issued_at") VALUES($1,$2,$3,$4,$5,$6,$7)`
+                                        const q5 = `INSERT INTO notifications(id, userId,staffId,message,isSeen, type, issued_at) VALUES(?,?,?,?,?,?,?)`
                                         db.query(q5, [id, studentId.trim(), staffId.trim(), message, isSeen, type, joined], (err) => {
                                             if (err) {
                                                 return util.sendJson(

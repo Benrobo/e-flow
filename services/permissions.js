@@ -117,7 +117,7 @@ export default class Permission {
 
       try {
         // check if userid exist in db
-        const q1 = `SELECT * FROM users WHERE "userId"=$1`;
+        const q1 = `SELECT * FROM users WHERE userId=?`;
         db.query(q1, [payload.userId], (err, result) => {
           if (err) {
             return util.sendJson(
@@ -127,7 +127,7 @@ export default class Permission {
             );
           }
 
-          if (result.rowCount === 0) {
+          if (result.length === 0) {
             return util.sendJson(
               res,
               {
@@ -140,7 +140,7 @@ export default class Permission {
           }
 
           // check if user assigning permission is an admin else block if not
-          if (result.rows[0].userRole !== "admin") {
+          if (result[0].userRole !== "admin") {
             return util.sendJson(
               res,
               {
@@ -152,7 +152,7 @@ export default class Permission {
           }
 
           // check if user type === staff and not student
-          if (result.rows[0].type === "student") {
+          if (result[0].type === "student") {
             return util.sendJson(
               res,
               {
@@ -166,7 +166,7 @@ export default class Permission {
 
           const { staffId, permissionLevel } = payload;
 
-          const sql1 = `UPDATE users SET "documentPermissions"=$1 WHERE "userId"=$2`;
+          const sql1 = `UPDATE users SET documentPermissions=? WHERE userId=?`;
           db.query(sql1, [permissionLevel, staffId], (err) => {
             if (err) {
               return util.sendJson(
@@ -261,7 +261,7 @@ export default class Permission {
 
       try {
         // check if userid exist in db
-        const q1 = `SELECT * FROM users WHERE "userId"=$1`;
+        const q1 = `SELECT * FROM users WHERE userId=?`;
         db.query(q1, [payload.userId.trim()], (err, result) => {
           if (err) {
             return util.sendJson(
@@ -271,7 +271,7 @@ export default class Permission {
             );
           }
 
-          if (result.rowCount === 0) {
+          if (result.length === 0) {
             return util.sendJson(
               res,
               {
@@ -283,7 +283,7 @@ export default class Permission {
           }
 
           // check if user assigning permission is an admin else block if not
-          if (result.rows[0].userRole !== "admin") {
+          if (result[0].userRole !== "admin") {
             return util.sendJson(
               res,
               { error: true, message: "only ADMIN can set/assign user role" },
@@ -293,7 +293,7 @@ export default class Permission {
 
           const { staffId, role } = payload;
 
-          const sql1 = `UPDATE users SET "userRole"=$1 WHERE "userId"=$2`;
+          const sql1 = `UPDATE users SET userRole=? WHERE userId=?`;
           db.query(sql1, [role.trim(), staffId.trim()], (err) => {
             if (err) {
               return util.sendJson(

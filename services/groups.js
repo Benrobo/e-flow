@@ -22,7 +22,7 @@ export default class Group {
                     return util.sendJson(res, { error: true, message: err.message }, 400)
                 }
 
-                return util.sendJson(res, { error: false, data: result.rows }, 200)
+                return util.sendJson(res, { error: false, data: result }, 200)
             })
         } catch (err) {
             console.log(err);
@@ -55,7 +55,7 @@ export default class Group {
                     return util.sendJson(res, { error: true, message: err.message }, 400)
                 }
 
-                if (data1.rowCount === 0) {
+                if (data1.length === 0) {
                     return util.sendJson(res, { error: true, message: "failed to get group members, user doesnt exist" }, 404)
                 }
 
@@ -66,7 +66,7 @@ export default class Group {
                         return util.sendJson(res, { error: true, message: err.message }, 400)
                     }
 
-                    if (data2.rowCount === 0) {
+                    if (data2.length === 0) {
                         return util.sendJson(res, { error: true, message: "group doesnt exist" }, 404)
                     }
 
@@ -94,7 +94,7 @@ export default class Group {
                             return util.sendJson(res, { error: true, message: err.message }, 400)
                         }
 
-                        return util.sendJson(res, { error: false, data: result.rows }, 200)
+                        return util.sendJson(res, { error: false, data: result }, 200)
                     })
                 })
             })
@@ -136,12 +136,12 @@ export default class Group {
                         return util.sendJson(res, { error: true, message: err.message }, 400)
                     }
 
-                    if (result.rowCount === 0) {
+                    if (result.length === 0) {
                         return util.sendJson(res, { error: false, message: "user with that id dont exists: " + payload.studentId }, 404)
                     }
 
 
-                    if (result.rowCount > 0 && result.rows[0].type === "admin" || result.rows[0].type === "staff") {
+                    if (result.length > 0 && result[0].type === "admin" || result[0].type === "staff") {
                         return util.sendJson(res, { error: false, message: `user with the type of {admin} and {staff} cant are not allowed to create a group` }, 403)
                     }
 
@@ -153,7 +153,7 @@ export default class Group {
                             return util.sendJson(res, { error: true, message: err.message }, 400)
                         }
 
-                        if (data1.rowCount > 0) {
+                        if (data1.length > 0) {
                             return util.sendJson(res, { error: true, message: `failed to create group: [${data1.rows[0].name}] already exist` }, 403)
                         }
 
@@ -206,7 +206,7 @@ export default class Group {
                         return util.sendJson(res, { error: true, message: err.message }, 400)
                     }
 
-                    if (result.rowCount === 0) {
+                    if (result.length === 0) {
                         return util.sendJson(res, { error: true, message: `failed to add members to [${payload.name}]: user not found ` }, 404)
                     }
 
@@ -218,7 +218,7 @@ export default class Group {
                             return util.sendJson(res, { error: true, message: err.message }, 400)
                         }
 
-                        if (result.rowCount === 0) {
+                        if (result.length === 0) {
                             return util.sendJson(res, { error: true, message: `failed to add member. member doesnt exist.` }, 404)
                         }
 
@@ -231,7 +231,7 @@ export default class Group {
                                 return util.sendJson(res, { error: true, message: err.message }, 400)
                             }
 
-                            if (data1.rowCount > 0 && data1.rows[0].type === "admin" || data1.rows[0].type === "staff") {
+                            if (data1.length > 0 && data1[0].type === "admin" || data1[0].type === "staff") {
                                 return util.sendJson(res, { error: true, message: `user with the type of {admin} and {staff} cant be added to any group` }, 403)
                             }
 
@@ -242,7 +242,7 @@ export default class Group {
                                     return util.sendJson(res, { error: true, message: err.message }, 400)
                                 }
 
-                                if (data2.rowCount === 0) {
+                                if (data2.length === 0) {
                                     return util.sendJson(res, { error: true, message: `group not found. create one.` }, 404)
                                 }
 
@@ -253,16 +253,16 @@ export default class Group {
                                     if (err) {
                                         return util.sendJson(res, { error: true, message: err.message }, 400)
                                     }
-                                    if (data3.rowCount > 0) {
+                                    if (data3.length > 0) {
                                         return util.sendJson(res, { error: true, message: `member already exist in that group.` }, 400)
                                     }
 
                                     // add member to group
                                     const { userId, memberId, groupId } = payload;
                                     const date = util.formatDate()
-                                    const groupName = data2.rows[0].name;
-                                    const courseName = data2.rows[0].courseName;
-                                    const courseType = data2.rows[0].courseType;
+                                    const groupName = data2[0].name;
+                                    const courseName = data2[0].courseName;
+                                    const courseType = data2[0].courseType;
 
                                     let sql5 = `INSERT INTO groups(id, name, courseName, courseType,userId,memberId,created_at) VALUES(?, ?, ?, ?,?,?,?)`
                                     db.query(sql5, [groupId.trim(), groupName, courseName, courseType, userId.trim(), memberId.trim(), date.trim()], (err) => {
@@ -315,7 +315,7 @@ export default class Group {
                         return util.sendJson(res, { error: true, message: err.message }, 400)
                     }
 
-                    if (result.rowCount === 0) {
+                    if (result.length === 0) {
                         return util.sendJson(res, { error: false, message: "user with that id dont exists: " + payload.userId }, 404)
                     }
 
@@ -326,7 +326,7 @@ export default class Group {
                             return util.sendJson(res, { error: true, message: err.message }, 400)
                         }
 
-                        if (data1.rowCount === 0) {
+                        if (data1.length === 0) {
                             return util.sendJson(res, { error: false, message: `fail to edit group, no group found` }, 404)
                         }
 
@@ -338,7 +338,7 @@ export default class Group {
                                 return util.sendJson(res, { error: true, message: err.message }, 400)
                             }
 
-                            if (data2.rowCount === 0) {
+                            if (data2.length === 0) {
                                 return util.sendJson(res, { error: false, message: `cant edit group you dont belong to` }, 404)
                             }
 
@@ -390,7 +390,7 @@ export default class Group {
                     }
 
 
-                    if (result.rowCount === 0 || result.rowCount === 1) {
+                    if (result.length === 0 || result.length === 1) {
                         return util.sendJson(res, { error: true, message: `either you or member doesnt exist` }, 404)
                     }
 
@@ -401,7 +401,7 @@ export default class Group {
                             return util.sendJson(res, { error: true, message: err.message }, 400)
                         }
 
-                        if (data1.rowCount === 0) {
+                        if (data1.length === 0) {
                             return util.sendJson(res, { error: true, message: `fail to delete group members, no group found` }, 404)
                         }
 
@@ -412,7 +412,7 @@ export default class Group {
                                 return util.sendJson(res, { error: true, message: err.message }, 400)
                             }
 
-                            if (data2.rowCount === 0) {
+                            if (data2.length === 0) {
                                 return util.sendJson(res, { error: true, message: `group deletion failed: you dont have permission.` }, 403)
                             }
 
@@ -423,7 +423,7 @@ export default class Group {
                                     return util.sendJson(res, { error: true, message: err.message }, 400)
                                 }
 
-                                if (data3.rowCount === 0) {
+                                if (data3.length === 0) {
                                     return util.sendJson(res, { error: true, message: `deletion failed: member doesnt exist` }, 404)
                                 }
 
@@ -472,7 +472,7 @@ export default class Group {
                         return util.sendJson(res, { error: true, message: err.message }, 400)
                     }
 
-                    if (result.rowCount === 0) {
+                    if (result.length === 0) {
                         return util.sendJson(res, { error: false, message: "user with that id dont exists: " + payload.userId }, 404)
                     }
 
@@ -483,7 +483,7 @@ export default class Group {
                             return util.sendJson(res, { error: true, message: err.message }, 400)
                         }
 
-                        if (data1.rows.length === 0) {
+                        if (data1.length === 0) {
                             return util.sendJson(res, { error: false, message: `fail to delete group, you dont belong to the group id provided` }, 404)
                         }
 
