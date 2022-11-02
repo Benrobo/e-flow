@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS documents (
     courseAdvisor TEXT,
     HOD TEXT,
     status TEXT NOT NULL,
-    file TEXT NOT NULL,
+    file LONGTEXT NOT NULL,
     created_at TEXT NOT NULL
 );
 

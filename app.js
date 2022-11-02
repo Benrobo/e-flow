@@ -52,7 +52,7 @@ app.use(cors({
   origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"]
 }));
-app.use(bodyParser.json({ limit: "50mb" }));
+app.use(bodyParser.json({ limit: "150mb" }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use((req, res, next) => {
   let method = req.method, path = req.path, status = res.statusCode
