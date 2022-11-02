@@ -11,6 +11,10 @@ import apiRoutes from "../../api_routes";
 import Badge from "../../components/Badge/badge";
 import { FaCheckCircle } from 'react-icons/fa'
 
+import { Viewer, Worker } from '@react-pdf-viewer/core';
+
+import '@react-pdf-viewer/core/lib/styles/index.css';
+
 const notif = new Notification(4000);
 
 function Submissions() {
@@ -213,7 +217,7 @@ function DocTables({ setDocView, setDocumentId }) {
                         ) : (
                           <li
                             data-doc_id={doc.id}
-                            data-doc_id={doc.userId}
+                            // data-doc_id={doc.userId}
                             onClick={(e) => {
                               editDocument();
                             }}
@@ -281,6 +285,7 @@ function ViewDocument({ documentId, setDocView }) {
   const [viewupdoc, setViewUpDoc] = useState(false)
   const [viewsign, setViewSign] = useState(false)
   const [docid, setDocId] = useState("")
+  const [base64url, setBase64Url] = useState("")
 
   async function fetchDoc() {
     if (documentId === "") return;
@@ -306,10 +311,18 @@ function ViewDocument({ documentId, setDocView }) {
         setDocFetchError(result.message);
         return notif.error(result.message);
       }
-      console.log(result.document[0]);
+      // console.log(result.document[0]);
       setDocData(result.document);
       setStaffId(result.document[0].staffId);
       setStudentId(result.document[0].userId)
+
+      if (result.document[0].file !== "") {
+        console.log({ file: result.document[0].file })
+        const blob = base64toBlob(result.document[0].file)
+        const url = URL.createObjectURL(blob);
+        setBase64Url(url)
+        console.log(url, blob)
+      }
     } catch (err) {
       setFetchLoading(false);
       setDocFetchError(err.message);
@@ -524,6 +537,22 @@ function ViewDocument({ documentId, setDocView }) {
     fetchDoc();
   }, [documentId]);
 
+  const base64toBlob = (data) => {
+    const pdfContentType = 'application/pdf';
+    // Cut the prefix `data:application/pdf;base64` from the raw base 64
+    const base64WithoutPrefix = data.substr(`data:${pdfContentType};base64,`.length);
+
+    const bytes = atob(base64WithoutPrefix);
+    let length = bytes.length;
+    let out = new Uint8Array(length);
+
+    while (length--) {
+      out[length] = bytes.charCodeAt(length);
+    }
+
+    return new Blob([out], { type: pdfContentType });
+  };
+
   return (
     <div className="view-document">
       {fetchloading ? (
@@ -543,8 +572,11 @@ function ViewDocument({ documentId, setDocView }) {
                 >
                   close
                 </button>
-                <div className="frame-cont">
-                  <iframe src={doc.file} className="doc-preview"></iframe>
+                <div className="frame-cont" style={{ height: "750px" }}>
+                  {/* <iframe src={doc.file} className="doc-preview"></iframe> */}
+                  <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.15.349/build/pdf.worker.min.js">
+                    <Viewer fileUrl={base64url} />
+                  </Worker>
                   {/* View Signature */}
                   <ViewDocumentSignatures studentId={studentId} documentId={doc.id} />
                   <br />
@@ -600,7 +632,7 @@ function ViewDocument({ documentId, setDocView }) {
                         Add Signature
                       </button>
                     )}
-                    <a href={doc?.file} target="_blank">
+                    <a href={base64url} target="_blank">
                       <button
                         className="btn report"
                         onClick={(e) => {
@@ -787,7 +819,7 @@ function ViewDocument({ documentId, setDocView }) {
                 {/* Add Signature */}
 
                 {/* Updated Document */}
-                {viewupdoc && <ViewUpdatedDocuments file={doc.file} />}
+                {viewupdoc && <ViewUpdatedDocuments file={base64url} />}
                 {viewsign && <SignDocument studentId={studentId} setViewSign={setViewSign} doctype={doctype} documentId={docid} />}
               </div>
             </>

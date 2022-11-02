@@ -172,7 +172,7 @@ function Groups() {
                         ) : groupdata && groupdata.length === 0 ? (
                             <p>Group you belong to would show here..</p>
                         ) : (
-                            groupdata.map((list, i) => {
+                            groupdata.length > 0 && groupdata.map((list, i) => {
                                 return (
                                     <div className="group-card" key={i}>
                                         <img

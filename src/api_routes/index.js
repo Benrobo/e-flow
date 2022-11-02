@@ -1,7 +1,7 @@
 const { hostname, protocol } = window.location;
 
-const BASE_URL = `https://calm-bull-stole.cyclic.app`
-// const BASE_URL = `http://localhost:5000`
+// const BASE_URL = `https://calm-bull-stole.cyclic.app`
+const BASE_URL = `http://localhost:5000`
 
 const apiRoutes = {
     userAuth: `${BASE_URL}/api/auth/users/register`,
