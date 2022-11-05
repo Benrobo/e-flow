@@ -1,6 +1,6 @@
 ### E-flow Logic
 
-This is an electronic workflow system system built for one of `babcock final year students`. a system meant for automating the workflow when submitting either `school form`, `final year report` , `course form` or any other school documents.
+This is an electronic workflow system system built for SingleStore Hackathon. a system meant for automating the workflow when submitting either `school form`, `final year report` , `course form` or any other school documents.
 
 -------
 
