@@ -1,6 +1,19 @@
 ### E-flow Logic
 
+This is an electronic workflow system system built for one of `babcock final year students`. a system meant for automating the workflow when submitting either `school form`, `final year report` , `course form` or any other school documents.
+
 -------
+
+<img src="https://raw.githubusercontent.com/Benrobo/e-workflow-client/main/readmeImg/dashboard.png" />
+
+<img src="https://raw.githubusercontent.com/Benrobo/e-workflow-client/main/readmeImg/grant%20request.png" />
+
+<img src="https://raw.githubusercontent.com/Benrobo/e-workflow-client/main/readmeImg/collab.png" />
+
+<img src="https://raw.githubusercontent.com/Benrobo/e-workflow-client/main/readmeImg/submission.png" />
+
+<img src="https://raw.githubusercontent.com/Benrobo/e-workflow-client/main/readmeImg/document-sub.png" />
+
 
 This contain the backend logic of `e-workflow` client app.
 
