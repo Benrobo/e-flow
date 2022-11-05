@@ -7,16 +7,20 @@ This is an electronic workflow system system built for SingleStore Hackathon. a 
 ![npm bundle size](https://img.shields.io/bundlephobia/min/react)
 -------
 
-<img src="https://raw.githubusercontent.com/Benrobo/e-workflow-client/main/readmeImg/dashboard.png" />
 
-<img src="https://raw.githubusercontent.com/Benrobo/e-workflow-client/main/readmeImg/grant%20request.png" />
+<img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/278/081/datas/original.png" />
 
-<img src="https://raw.githubusercontent.com/Benrobo/e-workflow-client/main/readmeImg/collab.png" />
+<img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/278/074/datas/original.png" />
 
-<img src="https://raw.githubusercontent.com/Benrobo/e-workflow-client/main/readmeImg/submission.png" />
+<img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/278/078/datas/original.png" />
 
-<img src="https://raw.githubusercontent.com/Benrobo/e-workflow-client/main/readmeImg/document-sub.png" />
+<img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/278/083/datas/original.png" />
 
+<img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/278/077/datas/original.png" />
+
+<img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/279/830/datas/original.png" />
+
+<img src="https://d112y698adiu2z.cloudfront.net/photos/production/software_photos/002/279/831/datas/original.png" />
 
 ----
 
